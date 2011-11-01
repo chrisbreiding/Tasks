@@ -18,10 +18,10 @@ class Tasks_model extends CI_Model {
 			$q_1 = $this->db->order_by('order', 'asc')->get_where('categories', array('user_id' => $user_id, 'column' => 1));
 			$col_1_categories = $q_1->result();
 			$q_2 = $this->db->order_by('order', 'asc')->get_where('categories', array('user_id' => $user_id, 'column' => 2));
-			$col_2_categories = $q_1->result();
+			$col_2_categories = $q_2->result();
 			$data = array(
-				array(),
-				array()	
+				0 => array(),
+				1 => array()	
 			);
 			foreach ($col_1_categories as $category) {
 				$q = $this->db->order_by('order', 'asc')->get_where('tasks', array('user_id' => $user_id, 'category_id' => $category->id));

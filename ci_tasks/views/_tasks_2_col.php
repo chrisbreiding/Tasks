@@ -1,8 +1,9 @@
 <?php 
 	if($task_data) {
+
 		foreach( $task_data as $task_cols => $task_cats ) {
 	?>
-		<div class="tasks-col">
+		<div class="tasks-col tasks-col-<?php echo $task_cols + 1; ?>">
 			
 			<?php foreach($task_cats as $task_cat) { ?>
 			
