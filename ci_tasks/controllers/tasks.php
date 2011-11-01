@@ -12,6 +12,7 @@ class Tasks extends CI_Controller {
 	    
 		$this->user = $this->session->userdata('tasks_username');
 		$this->user_id = $this->session->userdata('tasks_user_id');
+		$this->layout = $this->session->userdata('tasks_layout');
 	    
 		$this->load->model('tasks_model');
 	}
@@ -24,10 +25,17 @@ class Tasks extends CI_Controller {
 			'title' => ucfirst( $this->user ) . '\'s Tasks',
 			'body_class' => 'incomplete-tasks',
 			'date' => $this->taskdate->current_date(),
-			'tasks' => $this->tasks_model->get_incomplete_tasks($this->user_id)
+			'task_data' => $this->tasks_model->get_incomplete_tasks($this->user_id, $this->layout)
 		);
 		
+		if($this->layout == 1) {
+			$data['columns'] = 1;
+		} else {
+			$data['columns'] = 2;
+		}
+
 		$this->load->view('tasks_view', $data);
+		
 	}
 	
 	public function completed()

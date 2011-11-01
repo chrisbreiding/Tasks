@@ -30,7 +30,13 @@
 		</div><!-- /.header -->
 	
 		<div id="tasks">
-			<?php include(APPPATH . 'views/_tasks.php'); ?>
+			<?php
+				if($columns == 1) {
+					include(APPPATH . 'views/_tasks.php'); 
+				} else {
+					include(APPPATH . 'views/_tasks_2_col.php'); 
+				}
+			?>
 		</div><!-- /#tasks -->
 		
 		<div class="options clearfix">

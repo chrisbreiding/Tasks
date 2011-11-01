@@ -2,12 +2,12 @@
 
 class Login extends CI_Controller {
 
-   public function __construct()
-   {
-        parent::__construct();
-   }
+	public function __construct()
+	{
+		parent::__construct();
+	}
        	
-	function index()
+	public function index()
 	{
 	    if ( $this->session->userdata('tasks_logged_in') ) {
 	        redirect('/');
@@ -30,9 +30,10 @@ class Login extends CI_Controller {
 			if ( $res !== FALSE ) {
 														
 				$data = array(
-                   'tasks_username'	=> $res->username,
-                   'tasks_user_id'	=> $res->id,
-                   'tasks_logged_in'  => TRUE
+                   'tasks_username'		=> $res->username,
+                   'tasks_user_id'		=> $res->id,
+                   'tasks_logged_in'  	=> TRUE,
+                   'tasks_layout'		=> $res->layout
                 );
 
                 $this->session->set_userdata($data);
@@ -50,7 +51,7 @@ class Login extends CI_Controller {
 		$this->load->view('login_view');
 	}
 
-	function logout()
+	public function logout()
 	{
 	    $this->session->sess_destroy();
  		$data['notice'] = '<div class="message">You have logged out.</div>';
