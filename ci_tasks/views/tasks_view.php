@@ -9,7 +9,7 @@
 <body class="<?php echo $body_class; ?>">
 
 	<div class="container">
-			
+
 		<a class="logout" href="/tasks/logout">Log Out</a>
 
 		<div class="header clearfix">

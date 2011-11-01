@@ -30,10 +30,8 @@ class Login extends CI_Controller {
 			if ( $res !== FALSE ) {
 														
 				$data = array(
-                   'tasks_username'		=> $res->username,
                    'tasks_user_id'		=> $res->id,
-                   'tasks_logged_in'  	=> TRUE,
-                   'tasks_layout'		=> $res->layout
+                   'tasks_logged_in'  	=> TRUE
                 );
 
                 $this->session->set_userdata($data);
