@@ -38,7 +38,7 @@
 		<div id="tasks" class="clearfix">
 			<?php
 				if($columns == 1) {
-					include(APPPATH . 'views/_tasks.php'); 
+					include(APPPATH . 'views/_tasks_1_col.php');
 				} else {
 					include(APPPATH . 'views/_tasks_2_col.php'); 
 				}

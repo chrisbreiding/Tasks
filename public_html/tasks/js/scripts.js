@@ -27,11 +27,11 @@ $(document).ready(function() {
 		toMysql = function(date) {
 		    return date.getFullYear() + "-" + twoDigits(1 + date.getMonth()) + "-" + twoDigits(date.getDate());
 		},
-		updateOrder = function() {
+		updateOrder = function(category) {
 			$.ajax({
 				type: 'POST',
 				url: '/tasks/tasks/sort_tasks',
-				data: $('#tasks').sortable('serialize')
+				data: $(category).sortable('serialize')
 			});
 		},
 		handleLink = function($editBar) {
@@ -75,7 +75,18 @@ $(document).ready(function() {
 	cbTasks.year = Number(cbTasks.date_arr[0]);
 	cbTasks.month = Number(cbTasks.date_arr[1]);
 	cbTasks.day = Number(cbTasks.date_arr[2]);
-				
+	
+	// Expand height of body for when clicking outside of tasks
+	$(document.body).height($(window).height() - 20);
+	
+	// Give empty categories the "empty" class
+	$('.category').each(function() {
+		var $this = $(this);
+		if($this.children('.task-row').length < 1) {
+			$this.addClass('empty');
+		}
+	});
+	
 	// Create a new task
 /*
 	$('.create-task').click(function(e) {
@@ -107,21 +118,21 @@ $(document).ready(function() {
 		$('.task-row').removeClass('edit-bar-open');				// Remove class from task rows			
 	});
 	
-	// Stop clicks inside tasklist from bubbling up
-	$('#tasks').click(function(e) {
+	// Stop clicks inside category divs from bubbling up
+	$('.category').click(function(e) {
 		e.stopPropagation();
 	});
 	
 	/**** All handlers below here delegated in case they're used after a new task is created ****/
 	
 	// Focus on task
-	$('#tasks').delegate('.task', 'focus', function(e){
+	$('.category').delegate('.task', 'focus', function(e){
 		$('.edit-bar-open').removeClass('edit-bar-open');
 		$(this).parent().addClass('edit-bar-open');
 	});
 		
 	// Check or uncheck completion
-	$('#tasks').delegate('.check', 'click', function(e){
+	$('.category').delegate('.check', 'click', function(e){
 		var $this = $(this),
 			$parentRow = $this.parent('.completed').parent('.task-row'),
 			isNowChecked = $this.hasClass('checked'),
@@ -141,7 +152,7 @@ $(document).ready(function() {
 	});
 	
 	// Update on change
-	$('#tasks').delegate('.task', 'change', function(e){
+	$('.category').delegate('.task', 'change', function(e){
 		var $this = $(this);
 
 		e.preventDefault();
@@ -152,7 +163,7 @@ $(document).ready(function() {
 	});
 	
 	// Update on enter
-	$('#tasks').delegate('.save-task', 'click', function(e) {
+	$('.category').delegate('.save-task', 'click', function(e) {
 		var $parentRow = $(this).parent();
 
 		e.preventDefault();
@@ -163,7 +174,7 @@ $(document).ready(function() {
 	});
 
 	// Flag or unflag as important
-	$('#tasks').delegate('.flagger', 'click', function(e) {
+	$('.category').delegate('.flagger', 'click', function(e) {
 		var $parentRow = $(this).parent().parent('.task-row');
 		
 		e.preventDefault();
@@ -175,7 +186,7 @@ $(document).ready(function() {
 	});
 	
 	// Click delete circle -> bring up confirm delete button
-	$('#tasks').delegate('.delete', 'click', function(e) {
+	$('.category').delegate('.delete', 'click', function(e) {
 		e.preventDefault();
 		$('.confirm-delete').hide();
 		$('.delete').show();
@@ -183,13 +194,13 @@ $(document).ready(function() {
 	});
 	
 	// Cancel delete by focusing on task input
-	$('#tasks').delegate('.task', 'focus', function() {
+	$('.category').delegate('.task', 'focus', function() {
 		$('.confirm-delete').hide();
 		$('.delete').show();
 	});
 	
 	// Confirm delete
-	$('#tasks').delegate('.confirm-delete', 'click', function(e) {
+	$('.category').delegate('.confirm-delete', 'click', function(e) {
 		var $this = $(this),
 			url = $this.attr('href'),
 			$parentRow = $this.parent().parent('.task-row');
@@ -207,7 +218,7 @@ $(document).ready(function() {
 	});
 	
 	// Click add link
-	$('#tasks').delegate('.add-link', 'click', function(e) {
+	$('.category').delegate('.add-link', 'click', function(e) {
 		var $editBar = $(this).parent(),
 			$parentRow = $editBar.parent('.task-row'),
 			$thisLink,
@@ -251,14 +262,14 @@ $(document).ready(function() {
 	});
 	
 	// Submit link editor on enter		
-	$('#tasks').delegate('#save-link', 'click', function(e) {
+	$('.category').delegate('#save-link', 'click', function(e) {
 		var $editBar = $(this).parent().parent();
 		e.preventDefault();
 		handleLink($editBar);
 	});
 
 	// Remove link
-	$('#tasks').delegate('.break-link', 'click', function(e) {
+	$('.category').delegate('.break-link', 'click', function(e) {
 		var $this = $(this),
 			$editBar = $this.parent(),
 			$parentRow = $editBar.parent('.task-row');
@@ -276,7 +287,7 @@ $(document).ready(function() {
 	});
 				
 	// Focus on link editor input
-	$('#tasks').delegate('#link-editor input', 'focus', function() {
+	$('.category').delegate('#link-editor input', 'focus', function() {
 		var $this = $(this),
 			thisVal = $this.val();
 		if(thisVal === $this.attr('title')) {
@@ -285,7 +296,7 @@ $(document).ready(function() {
 	});
 	
 	// Blur from link editor input
-	$('#tasks').delegate('#link-editor input', 'blur', function() {
+	$('.category').delegate('#link-editor input', 'blur', function() {
 		var $this = $(this),
 			thisVal = $this.val();
 		if(thisVal === '') {
@@ -297,22 +308,32 @@ $(document).ready(function() {
 	});
 				
 	// Order the tasks
-/*
-	$('#tasks').sortable({
+	$('.category').sortable({
 		placeholder: 'ui-placeholder',
 		handle: '.handle',
+		connectWith: '.category',
+		remove: function(event, ui) {
+			var $this = $(this);
+			if($this.children('.task-row').length < 1) {
+				$this.addClass('empty');
+			}
+		},
 		update: function(event, ui) {
-			updateOrder();
-			updateTask({
-				id		: ui.item.data('id'),
-				task 	: ui.item.find('.task').val()
-			}, ui.item);
+			var $this = $(this);
+			if (this === ui.item.parent()[0]) {
+				updateOrder(this);
+				updateTask({
+					id			: ui.item.data('id'),
+					task 		: ui.item.find('.task').val(),
+					category_id : $this.data('cat-id')
+				}, ui.item);
+				$this.removeClass('empty');
+			}
 		},
 		stop: function(event, ui) {
 			ui.item.find('.task').focus(); // Re-focus the input
 		}
 	});
-*/
 
 	// Top date picker
 	$('#date-input').datepicker({

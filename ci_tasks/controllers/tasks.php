@@ -42,9 +42,10 @@ class Tasks extends CI_Controller {
 		$this->load->library('taskdate');
 		
 		$data = array(
-			'body_class' => 'complete-tasks',
+			'body_class' => 'complete-tasks layout-' . $this->layout,
 			'date' => $this->taskdate->past_date($uri_date),
-			'tasks' => $this->tasks_model->get_tasks_by_date($this->user_id, $uri_date)
+			'columns' => $this->layout,
+			'task_data' => $this->tasks_model->get_tasks_by_date($this->user_id, $uri_date, $this->layout)
 		);
 		$data['title'] = ucfirst( $this->user ) . '\'s Tasks - ' . $data['date']['today_long'];
 		

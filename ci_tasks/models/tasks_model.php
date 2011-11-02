@@ -8,32 +8,53 @@ class Tasks_model extends CI_Model {
 			$categories = $q->result();
 			$data = array();
 			foreach ($categories as $category) {
-				$q = $this->db->order_by('order', 'asc')->get_where('tasks', array('user_id' => $user_id, 'category_id' => $category->id));
+				$q = $this->db->order_by('order', 'asc')->get_where('tasks', array(
+					'user_id' => $user_id, 
+					'category_id' => $category->id, 
+					'completed' => 0
+				));
 				$data[] = array(
 					'cat_name' => $category->category,
+					'cat_id' => $category->id,
 					'tasks' => $q->result()
 				);
 			}
 		} else {
-			$q_1 = $this->db->order_by('order', 'asc')->get_where('categories', array('user_id' => $user_id, 'column' => 1));
+			$q_1 = $this->db->order_by('order', 'asc')->get_where('categories', array(
+				'user_id' => $user_id, 
+				'column' => 1
+			));
 			$col_1_categories = $q_1->result();
-			$q_2 = $this->db->order_by('order', 'asc')->get_where('categories', array('user_id' => $user_id, 'column' => 2));
+			$q_2 = $this->db->order_by('order', 'asc')->get_where('categories', array(
+				'user_id' => $user_id, 
+				'column' => 2
+			));
 			$col_2_categories = $q_2->result();
 			$data = array(
 				0 => array(),
-				1 => array()	
+				1 => array()
 			);
 			foreach ($col_1_categories as $category) {
-				$q = $this->db->order_by('order', 'asc')->get_where('tasks', array('user_id' => $user_id, 'category_id' => $category->id));
+				$q = $this->db->order_by('order', 'asc')->get_where('tasks', array(
+					'user_id' => $user_id, 
+					'category_id' => $category->id, 
+					'completed' => 0
+				));
 				$data[0][] = array(
 					'cat_name' => $category->category,
+					'cat_id' => $category->id,
 					'tasks' => $q->result()
 				);
 			}
 			foreach ($col_2_categories as $category) {
-				$q = $this->db->order_by('order', 'asc')->get_where('tasks', array('user_id' => $user_id, 'category_id' => $category->id));
+				$q = $this->db->order_by('order', 'asc')->get_where('tasks', array(
+					'user_id' => $user_id, 
+					'category_id' => $category->id, 
+					'completed' => 0
+				));
 				$data[1][] = array(
 					'cat_name' => $category->category,
+					'cat_id' => $category->id,
 					'tasks' => $q->result()
 				);
 			}
@@ -42,9 +63,65 @@ class Tasks_model extends CI_Model {
 		return $data;
 	}
 
-	public function get_tasks_by_date($user_id, $uri_date) {
-		$q = $this->db->order_by('order', 'asc')->get_where( 'tasks', array( 'user_id' => $user_id, 'date_completed' => $uri_date ) );
-		return $q->result();
+	public function get_tasks_by_date($user_id, $uri_date, $layout) {
+		if($layout == 1) {
+			$q = $this->db->order_by('order', 'asc')->get_where('categories', array('user_id' => $user_id));
+			$categories = $q->result();
+			$data = array();
+			foreach ($categories as $category) {
+				$q = $this->db->order_by('order', 'asc')->get_where('tasks', array(
+					'user_id' => $user_id, 
+					'category_id' => $category->id, 
+					'date_completed' => $uri_date
+				));
+				$data[] = array(
+					'cat_name' => $category->category,
+					'cat_id' => $category->id,
+					'tasks' => $q->result()
+				);
+			}
+		} else {
+			$q_1 = $this->db->order_by('order', 'asc')->get_where('categories', array(
+				'user_id' => $user_id, 
+				'column' => 1
+			));
+			$col_1_categories = $q_1->result();
+			$q_2 = $this->db->order_by('order', 'asc')->get_where('categories', array(
+				'user_id' => $user_id, 
+				'column' => 2
+			));
+			$col_2_categories = $q_2->result();
+			$data = array(
+				0 => array(),
+				1 => array()
+			);
+			foreach ($col_1_categories as $category) {
+				$q = $this->db->order_by('order', 'asc')->get_where('tasks', array(
+					'user_id' => $user_id, 
+					'category_id' => $category->id, 
+					'date_completed' => $uri_date
+				));
+				$data[0][] = array(
+					'cat_name' => $category->category,
+					'cat_id' => $category->id,
+					'tasks' => $q->result()
+				);
+			}
+			foreach ($col_2_categories as $category) {
+				$q = $this->db->order_by('order', 'asc')->get_where('tasks', array(
+					'user_id' => $user_id, 
+					'category_id' => $category->id, 
+					'date_completed' => $uri_date
+				));
+				$data[1][] = array(
+					'cat_name' => $category->category,
+					'cat_id' => $category->id,
+					'tasks' => $q->result()
+				);
+			}
+			
+		}
+		return $data;
 	}
 	
 	public function update_task_order($tasks) {
