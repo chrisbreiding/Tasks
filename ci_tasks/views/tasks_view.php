@@ -13,10 +13,16 @@
 		<a class="logout" href="/tasks/logout">Log Out</a>
 
 		<div class="header clearfix">
+		
 			<h1><a href="/tasks/">Tasks</a></h1>
+			<?php if( !$this->uri->segment(3) ) { ?>
+				<a class="create-task" href="#">+</a>
+			<?php } ?>
+			
 			<div id="date-pick">
 				<input id="date-input" type="hidden" />
 			</div>
+			
 			<?php if( $this->uri->segment(3) ) { ?>
 				<a class="next-day" href="/tasks/tasks/completed/<?php echo $date['tomorrow']; ?>">&gt;</a>
 				<div class="date">
@@ -29,7 +35,7 @@
 			
 		</div><!-- /.header -->
 	
-		<div id="tasks">
+		<div id="tasks" class="clearfix">
 			<?php
 				if($columns == 1) {
 					include(APPPATH . 'views/_tasks.php'); 
@@ -39,13 +45,6 @@
 			?>
 		</div><!-- /#tasks -->
 		
-		<div class="options clearfix">
-			<!-- <a class="edit-tasks" href="#">Edit</a> -->
-			<?php if( !$this->uri->segment(3) ) { ?>
-				<a class="create-task" href="#">+</a>
-			<?php } ?>
-		</div><!-- /.options -->
-	
 	</div><!-- /.container -->
 	
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>

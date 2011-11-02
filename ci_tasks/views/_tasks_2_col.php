@@ -6,19 +6,21 @@
 		<div class="tasks-col tasks-col-<?php echo $task_cols + 1; ?>">
 			
 			<?php foreach($task_cats as $task_cat) { ?>
-			
-				<h2><?php echo $task_cat['cat_name']; ?></h2>
-				<?php
-					foreach($task_cat['tasks'] as $task) {
-						$attr = array(
-							'id' 	=> 'task-' . $task->id,
-							'class'	=> 'task-row' . ($task->important ? ' important' : '') . ($task->link_href ? ' linked' : ''),
-							'data-id' => $task->id
-						);
-						
-						echo form_open('tasks/update', $attr);
-					?>
-						
+				
+				<div class="category">
+				
+					<h2><?php echo $task_cat['cat_name']; ?></h2>
+					<?php
+						foreach($task_cat['tasks'] as $task) {
+							$attr = array(
+								'id' 	=> 'task-' . $task->id,
+								'class'	=> 'task-row' . ($task->important ? ' important' : '') . ($task->link_href ? ' linked' : ''),
+								'data-id' => $task->id
+							);
+							
+							echo form_open('tasks/update', $attr);
+						?>
+							
 							<div class="completed">
 								<a class="check<?php echo $task->completed == 1 ? ' checked" title="Mark Incomplete' : '" title="Mark Complete'; ?>" href="#">Toggle Completion</a>
 							</div>
@@ -56,21 +58,21 @@
 							</div><!-- /.edit-bar -->
 							
 							<input type="submit" class="save-task" value="Save" />
-							
-					<?php
-						echo form_close();
-					} // end foreach
+								
+						<?php echo form_close(); ?>
+
+					<?php } // end tasks foreach ?>
+
+				</div><!-- /.category -->
 					
-				} // end foreach
-			?>
+			<?php } // end categories foreach ?>
 		
 		</div><!-- /.col -->
 		
-	<?php 
-		} // end foreach
+	<?php } // end task_data foreach ?>
 
-	} else {
-		$message = $this->uri->segment(3) ? 'No completed tasks' : 'No tasks';
+<?php } else {
+	$message = $this->uri->segment(3) ? 'No completed tasks' : 'No tasks';
 ?>
 
 	<div class="no-results"><?php echo $message; ?></div>

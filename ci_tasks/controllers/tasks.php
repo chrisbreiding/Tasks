@@ -26,18 +26,12 @@ class Tasks extends CI_Controller {
 				
 		$data = array(
 			'title' => ucfirst( $this->user ) . '\'s Tasks',
-			'body_class' => 'incomplete-tasks',
+			'body_class' => 'incomplete-tasks layout-' . $this->layout,
 			'date' => $this->taskdate->current_date(),
-			'layout' => $this->layout,
+			'columns' => $this->layout,
 			'task_data' => $this->tasks_model->get_incomplete_tasks($this->user_id, $this->layout)
 		);
 		
-		if($this->layout == 1) {
-			$data['columns'] = 1;
-		} else {
-			$data['columns'] = 2;
-		}
-
 		$this->load->view('tasks_view', $data);
 		
 	}

@@ -77,6 +77,7 @@ $(document).ready(function() {
 	cbTasks.day = Number(cbTasks.date_arr[2]);
 				
 	// Create a new task
+/*
 	$('.create-task').click(function(e) {
 		e.preventDefault();
 		$('.no-results').fadeOut().remove();
@@ -90,11 +91,12 @@ $(document).ready(function() {
 			}
 		});
 	});
+*/
 	
 	// When clicking outside tasklist
 	$(document.body).click(function() {
 		$('.date-changer').hide();									// Hide date changers
-		$('.link:hidden').show(); 									// Reveal any hidden links
+		$('.link:hidden').show();									// Reveal any hidden links
 		
 		if($('#link-editor').length) {								// Handle an open link editor
 			var $editBar = $('#link-editor').parent()
@@ -295,6 +297,7 @@ $(document).ready(function() {
 	});
 				
 	// Order the tasks
+/*
 	$('#tasks').sortable({
 		placeholder: 'ui-placeholder',
 		handle: '.handle',
@@ -309,6 +312,7 @@ $(document).ready(function() {
 			ui.item.find('.task').focus(); // Re-focus the input
 		}
 	});
+*/
 
 	// Top date picker
 	$('#date-input').datepicker({
