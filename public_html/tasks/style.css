@@ -280,33 +280,181 @@ h1 {
 			display: block;
 			font-size: 2em;
 			margin-left: 10px;
+			position: relative;
 			text-align: center;
 			text-decoration: none;
 			text-shadow: 0 -1px 1px rgba(0,0,0,0.5);
 			width: 28px;
 			height: 28px;
 			line-height: 22px;
+			z-index: 20;
 		}
 		
-		.create-task:hover {
+		#create-task:hover,
+		.creating-task #create-task {
+			background: #F5F4E8 url("ui/tasks-bg.jpg");
 			border-color: #b7b7b7;
 			color: #b7b7b7;
 		}
+
+		.creating-task:before {
+			-webkit-box-shadow: 0 0 10px rgba(0,0,0,0.2);
+			-moz-box-shadow: 0 0 10px rgba(0,0,0,0.2);
+			box-shadow: 0 0 10px rgba(0,0,0,0.2);
+			content: '';
+			display: block;
+			position: absolute;
+				right: -5px;
+				top: -5px;
+			width: 38px;
+			height: 38px;
+			z-index: 5
+		}
+			
+		.creating-task:after {
+			background: #F0EED8;
+			-moz-border-radius: 3px 3px 0 0;
+			-webkit-border-radius: 3px 3px 0 0;
+			border-radius: 3px 3px 0 0;
+			border: solid 1px #C4C1A4;
+			border-bottom: none;
+			content: '';
+			display: block;
+			position: absolute;
+				right: -5px;
+				top: -5px;
+			width: 38px;
+			height: 38px;
+			z-index: 15;
+		}
 		
 		#task-creator {
-			background: #e3e3e3;
-			background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#e3e3e3));
-			background: -moz-linear-gradient(top, #f8f8f8, #e3e3e3);
+			background: #F0EED8;
 			-moz-border-radius: 3px 0 3px 3px;
 			-webkit-border-radius: 3px 0 3px 3px;
 			border-radius: 3px 0 3px 3px;
-			border: solid 1px #d3d3d3;
+			border: solid 1px #C4C1A4;
+			-webkit-box-shadow: 0 0 10px rgba(0,0,0,0.2);
+			-moz-box-shadow: 0 0 10px rgba(0,0,0,0.2);
+			box-shadow: 0 0 10px rgba(0,0,0,0.2);
 			padding: 10px;
 			position: absolute;
-				right: 0;
-				top: 30px;
+				right: -5px;
+				top: 33px;
+			width: 500px;
+			z-index: 10;
 		}
-	
+		
+			#new-task {
+				background: #FFF;
+				-moz-border-radius: 3px 3px 0 0;
+				-webkit-border-radius: 3px 3px 0 0;
+				border-radius: 3px 3px 0 0;
+				border: solid 1px #A3A3A3;
+				border-bottom-color: #D3D3D3;
+				padding: 5px 10px;
+				width: 478px;
+				height: 20px;
+				line-height: 20px;
+			}
+
+			.creator-edit-bar {
+				background: #d3d3d3;
+				background: -webkit-gradient(linear, left top, left bottom, from(#e3e3e3), to(#d3d3d3));
+				background: -moz-linear-gradient(top, #e3e3e3, #d3d3d3);
+				-moz-border-radius: 0 0 3px 3px;
+				-webkit-border-radius: 0 0 3px 3px;
+				border-radius: 0 0 3px 3px;
+				border: solid 1px #a3a3a3;
+				border-top: none;
+				height: 30px;
+			}
+			
+				.creator-edit-bar select {
+					float: left;
+					margin: 5px;
+				}
+				
+				.creator-link-editor {
+					float: right;
+				}
+				
+				.creator-edit-bar input {
+					background: #FFF;
+					border: solid 1px #c3c3c3;
+					-moz-border-radius: 3px;
+					-webkit-border-radius: 3px;
+					border-radius: 3px;
+					color: #a3a3a3;
+					float: left;
+					margin: 2px;
+					padding: 2px 5px;
+					width: 134px;
+					height: 20px;
+					line-height: 20px;
+				}
+				
+				.creator-edit-bar input:focus,
+				.creator-edit-bar input.has-text {
+					color: #333;
+				}
+				
+				#task-creator .actions {
+					float: right;
+					padding-top: 10px;
+				}
+				
+					#cancel-task,
+					#save-task {
+						-moz-border-radius: 3px;
+						-webkit-border-radius: 3px;
+						border-radius: 3px;
+						-webkit-box-shadow: inset 0 0 1px #FFF;
+						-moz-box-shadow: inset 0 0 1px #FFF;
+						box-shadow: inset 0 0 1px #FFF;
+						display: block;
+						float: left;
+						font-size: .9em;
+						height: 28px;
+						line-height: 28px;
+						padding: 0 10px;
+						text-decoration: none;
+					}
+				
+					#cancel-task {
+						background: #f8f8f8;
+						background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#e3e3e3));
+						background: -moz-linear-gradient(top, #f8f8f8, #e3e3e3);
+						border: solid 1px #c3c3c3;
+						color: #4B2020;
+					}
+					
+						#cancel-task:hover {
+							background: #e3e3e3;
+							background: -webkit-gradient(linear, left top, left bottom, from(#e3e3e3), to(#d3d3d3));
+							background: -moz-linear-gradient(top, #e3e3e3, #d3d3d3);
+						}
+					
+					#save-task {
+						background: #344321;
+						background: -webkit-gradient(linear, left top, left bottom, from(#45572E), to(#344321));
+						background: -moz-linear-gradient(top, #45572E, #344321);
+						border: solid 1px #344321;
+						color: #FFF;
+						margin-left: 10px;
+					}
+					
+						#save-task:hover {
+							background: #41502D;
+							background: -webkit-gradient(linear, left top, left bottom, from(#52643A), to(#41502D));
+							background: -moz-linear-gradient(top, #52643A, #41502D);
+						}
+					
+					#submit-task {
+						position: absolute;
+						left: -9999px;
+					}
+		
 
 /**** 1 Column Layout ****/
 
@@ -426,7 +574,6 @@ h1 {
 		box-shadow: inset 1px 1px 1px rgba(0,0,0,0.2);
 		display: block;
 		font-size: 13px;
-/* 		width: 448px; */
 		height: 20px;
 		line-height: 20px;
 		padding: 5px 10px 5px 40px;
@@ -473,7 +620,9 @@ h1 {
 	}
 	
 	.edit-bar {
-		background: #eee;
+		background: #d3d3d3;
+		background: -webkit-gradient(linear, left top, left bottom, from(#e3e3e3), to(#d3d3d3));
+		background: -moz-linear-gradient(top, #e3e3e3, #d3d3d3);
 		-moz-border-radius: 0 0 3px 3px;
 		-webkit-border-radius: 0 0 3px 3px;
 		border-radius: 0 0 3px 3px;
@@ -490,9 +639,9 @@ h1 {
 
 		.edit-bar > div,
 		.edit-bar > a,
-		.edit-bar > div > a {
-			background-color: #f8f8f8;
-			border-left: solid 1px #d3d3d3;
+		.edit-bar > div > a,
+		.creator-edit-bar .flagger {
+			border-left: solid 1px #c3c3c3;
 			display: block;
 			float: right;
 			outline: none;
@@ -515,7 +664,7 @@ h1 {
 			-webkit-border-radius: 0 0 0 3px;
 			border-radius: 0 0 0 3px;
 			border-left: none;
-			border-right: solid 1px #d3d3d3;
+			border-right: solid 1px #c3c3c3;
 			float: left
 		}
 		
@@ -524,7 +673,8 @@ h1 {
 			cursor: move;
 		}
 		
-		.edit-bar .flagger {
+		.edit-bar .flagger,
+		.creator-edit-bar .flagger {
 			background-position: -30px -90px;
 			-moz-border-radius: 0 0 3px 0;
 			-webkit-border-radius: 0 0 3px 0;
@@ -598,7 +748,7 @@ h1 {
 		
 			#link-editor input {
 				background: #FFF;
-				border: solid 1px #e3e3e3;
+				border: solid 1px #c3c3c3;
 				-moz-border-radius: 3px;
 				-webkit-border-radius: 3px;
 				border-radius: 3px;

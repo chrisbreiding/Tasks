@@ -94,6 +94,36 @@ $(document).ready(function() {
 		});
 	});
 	
+	// Focus on link input
+	$('.create-task').delegate('.creator-edit-bar input', 'focus', function() {
+		var $this = $(this),
+			thisVal = $this.val();
+		if(thisVal === $this.attr('title')) {
+			$this.val('');
+		}
+	});
+
+	// Blur from link editor input
+	$('.create-task').delegate('.creator-edit-bar input', 'blur', function() {
+		var $this = $(this),
+			thisVal = $this.val();
+		if(thisVal === '') {
+			$this.val($this.attr('title'));
+			$this.removeClass('has-text');
+		} else {
+			$this.addClass('has-text');
+		}
+	});
+	
+	// Cancel Task Creation
+	$('.create-task').delegate('#cancel-task', 'click', function(e){
+		var $taskCreator = $(this).parent().parent();
+		e.preventDefault();
+		$('.create-task').removeClass('creating-task');
+		$taskCreator.fadeOut('fast', function() {
+			$taskCreator.remove();
+		});
+	});
 	
 /*
 	$('.create-task').click(function(e) {
