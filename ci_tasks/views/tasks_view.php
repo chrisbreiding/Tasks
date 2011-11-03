@@ -16,7 +16,9 @@
 		
 			<h1><a href="/tasks/">Tasks</a></h1>
 			<?php if( !$this->uri->segment(3) ) { ?>
-				<a class="create-task" href="#">+</a>
+				<div class="create-task">
+					<a id="create-task" href="#">+</a>
+				</div>
 			<?php } ?>
 			
 			<div id="date-pick">

@@ -58,6 +58,12 @@ class Tasks extends CI_Controller {
 		$this->tasks_model->update_task_order($tasks['task']);
 	}
 	
+	public function task_creator() 
+	{
+		$data['categories'] = $this->tasks_model->get_categories($this->user_id);
+		$this->load->view('_categories', $data);
+	}
+	
 	public function create()
 	{
 		$new_task = array(
@@ -79,5 +85,5 @@ class Tasks extends CI_Controller {
 	{
 		$this->tasks_model->destroy_task();
 	}
-	
+		
 }

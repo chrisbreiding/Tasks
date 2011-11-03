@@ -56,7 +56,7 @@ if (defined('ENVIRONMENT'))
  * as this file.
  *
  */
-	$system_path = '/srv/www/chrisbreiding.com/ci/system';
+	$system_path = '/srv/www/chrisbreiding.com/ci_system';
 
 /*
  *---------------------------------------------------------------

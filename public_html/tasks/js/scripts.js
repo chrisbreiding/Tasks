@@ -88,6 +88,13 @@ $(document).ready(function() {
 	});
 	
 	// Create a new task
+	$('#create-task').click(function() {
+		$.get('/tasks/tasks/task_creator', function(data) {
+			$('.create-task').append(data).addClass('creating-task');
+		});
+	});
+	
+	
 /*
 	$('.create-task').click(function(e) {
 		e.preventDefault();

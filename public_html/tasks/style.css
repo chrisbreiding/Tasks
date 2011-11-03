@@ -267,27 +267,45 @@ h1 {
 		}
 
 	.create-task {
-		-moz-border-radius: 3px;
-		-webkit-border-radius: 3px;
-		border-radius: 3px;
-		border: solid 1px #d3d3d3;
-		color: #D1CEAB;
-		display: block;
 		float: right;
-		font-size: 2em;
-		margin-left: 10px;
-		text-align: center;
-		text-decoration: none;
-		text-shadow: 0 -1px 1px rgba(0,0,0,0.5);
-		width: 28px;
-		height: 28px;
-		line-height: 22px;
+		position: relative;
 	}
 	
-	.create-task:hover {
-		border-color: #b7b7b7;
-		color: #b7b7b7;
-	}
+		#create-task {
+			-moz-border-radius: 3px;
+			-webkit-border-radius: 3px;
+			border-radius: 3px;
+			border: solid 1px #d3d3d3;
+			color: #D1CEAB;
+			display: block;
+			font-size: 2em;
+			margin-left: 10px;
+			text-align: center;
+			text-decoration: none;
+			text-shadow: 0 -1px 1px rgba(0,0,0,0.5);
+			width: 28px;
+			height: 28px;
+			line-height: 22px;
+		}
+		
+		.create-task:hover {
+			border-color: #b7b7b7;
+			color: #b7b7b7;
+		}
+		
+		#task-creator {
+			background: #e3e3e3;
+			background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#e3e3e3));
+			background: -moz-linear-gradient(top, #f8f8f8, #e3e3e3);
+			-moz-border-radius: 3px 0 3px 3px;
+			-webkit-border-radius: 3px 0 3px 3px;
+			border-radius: 3px 0 3px 3px;
+			border: solid 1px #d3d3d3;
+			padding: 10px;
+			position: absolute;
+				right: 0;
+				top: 30px;
+		}
 	
 
 /**** 1 Column Layout ****/
