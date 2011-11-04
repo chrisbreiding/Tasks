@@ -27,11 +27,11 @@ $(document).ready(function() {
 		toMysql = function(date) {
 		    return date.getFullYear() + "-" + twoDigits(1 + date.getMonth()) + "-" + twoDigits(date.getDate());
 		},
-		updateOrder = function(category) {
+		updateOrder = function($categoryDiv) {
 			$.ajax({
 				type: 'POST',
 				url: '/tasks/tasks/sort_tasks',
-				data: $(category).sortable('serialize')
+				data: $categoryDiv.sortable('serialize')
 			});
 		},
 		handleLink = function($editBar) {
@@ -89,8 +89,11 @@ $(document).ready(function() {
 	
 	// Create a new task
 	$('#create-task').click(function() {
+		$('.create-task').removeClass('creating-task');
+		$('#task-creator').remove();
 		$.get('/tasks/tasks/task_creator', function(data) {
 			$('.create-task').append(data).addClass('creating-task');
+			$('#task').focus();
 		});
 	});
 	
@@ -103,7 +106,7 @@ $(document).ready(function() {
 		}
 	});
 
-	// Blur from link editor input
+	// Blur from link input
 	$('.create-task').delegate('.creator-edit-bar input', 'blur', function() {
 		var $this = $(this),
 			thisVal = $this.val();
@@ -115,31 +118,45 @@ $(document).ready(function() {
 		}
 	});
 	
+	// Toggle Importance
+	$('.create-task').delegate('.flagger', 'click', function(e) {
+		e.preventDefault();
+		$(this).parent().parent().parent().toggleClass('important');
+	});
+		
 	// Cancel Task Creation
 	$('.create-task').delegate('#cancel-task', 'click', function(e){
-		var $taskCreator = $(this).parent().parent();
 		e.preventDefault();
 		$('.create-task').removeClass('creating-task');
-		$taskCreator.fadeOut('fast', function() {
-			$taskCreator.remove();
-		});
+		$('#task-creator').hide().remove();
 	});
 	
-/*
-	$('.create-task').click(function(e) {
+	$('.create-task').delegate('#save-task', 'click', function(e){
+		var category = $('#categories').val(),
+			$categoryDiv = $('#cat-' + category),
+			$linkText = $('#link-text'),
+			$linkHref = $('#link-href');
 		e.preventDefault();
-		$('.no-results').fadeOut().remove();
 		$.ajax({
+			type: 'POST',
 			url: '/tasks/tasks/create',
+			data: {
+				'task' 			: $('#task').val() || '',
+				'category_id' 	: category,
+				'link_text' 	: (($linkHref.val() === $linkHref.attr('title') || $linkText.val() === $linkText.attr('title')) ? '' : $linkText.val()),
+				'link_href'		: ($linkHref.val() === $linkHref.attr('title') ? '' : $linkHref.val()),
+				'important'		: ($('#task-creator').hasClass('important') ? 1 : 0)
+			},
 			success: function(data) {
-				$(data).appendTo( $('#tasks') ).hide().fadeIn();
-				updateOrder();
-				$('#tasks').sortable('refresh');
-				$('.task-row:last .task').focus();
+				$('.create-task').removeClass('creating-task');
+				$('#task-creator').hide().remove();
+				$(data).appendTo($categoryDiv).hide().fadeIn('fast', function() {
+					updateOrder($categoryDiv);
+					$('.category').sortable('refresh');
+				});
 			}
 		});
 	});
-*/
 	
 	// When clicking outside tasklist
 	$(document.body).click(function() {
@@ -212,7 +229,7 @@ $(document).ready(function() {
 
 	// Flag or unflag as important
 	$('.category').delegate('.flagger', 'click', function(e) {
-		var $parentRow = $(this).parent().parent('.task-row');
+		var $parentRow = $(this).parent().parent();
 		
 		e.preventDefault();
 		$parentRow.toggleClass('important');
@@ -358,7 +375,7 @@ $(document).ready(function() {
 		update: function(event, ui) {
 			var $this = $(this);
 			if (this === ui.item.parent()[0]) {
-				updateOrder(this);
+				updateOrder($this);
 				updateTask({
 					id			: ui.item.data('id'),
 					task 		: ui.item.find('.task').val(),

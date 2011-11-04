@@ -61,16 +61,15 @@ class Tasks extends CI_Controller {
 	public function task_creator() 
 	{
 		$data['categories'] = $this->tasks_model->get_categories($this->user_id);
-		$this->load->view('_categories', $data);
+		$this->load->view('_task_creator', $data);
 	}
 	
 	public function create()
 	{
-		$new_task = array(
-			'completed' => 0,
-			'task' 		=> '',
-			'user_id'	=> $this->user_id
-		);
+		$new_task = $this->input->post();
+		$new_task['completed'] = 0;
+		$new_task['user_id'] = $this->user_id;
+
 		$data['tasks'] = $this->tasks_model->create_task($new_task);
 		$this->load->view('_tasks', $data);
 	}
