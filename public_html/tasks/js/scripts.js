@@ -88,13 +88,20 @@ $(document).ready(function() {
 	});
 	
 	// Create a new task
-	$('#create-task').click(function() {
-		$('.create-task').removeClass('creating-task');
-		$('#task-creator').remove();
-		$.get('/tasks/tasks/task_creator', function(data) {
-			$('.create-task').append(data).addClass('creating-task');
-			$('#task').focus();
-		});
+	$('#create-task').click(function(e) {
+		var $createTask = $('.create-task');
+		
+		e.preventDefault();
+		
+		if($createTask.hasClass('creating-task')) {
+			$createTask.removeClass('creating-task');
+			$('#task-creator').remove();
+		} else {
+			$.get('/tasks/tasks/task_creator', function(data) {
+				$createTask.append(data).addClass('creating-task');
+				$('#task').focus();
+			});
+		}
 	});
 	
 	// Focus on link input
@@ -134,8 +141,11 @@ $(document).ready(function() {
 	$('.create-task').delegate('#save-task', 'click', function(e){
 		var category = $('#categories').val(),
 			$categoryDiv = $('#cat-' + category),
-			$linkText = $('#link-text'),
-			$linkHref = $('#link-href');
+			$linkText = $('#create-link-text'),
+			$linkHref = $('#create-link-href'),
+			linkHrefVal = $linkHref.val(),
+			linkHrefVal = linkHrefVal && (linkHrefVal !== $linkHref.attr('title')) && (linkHrefVal.match(/^http:\/\//) ? linkHrefVal : 'http://' + linkHrefVal);
+			
 		e.preventDefault();
 		$.ajax({
 			type: 'POST',
@@ -143,8 +153,8 @@ $(document).ready(function() {
 			data: {
 				'task' 			: $('#task').val() || '',
 				'category_id' 	: category,
-				'link_text' 	: (($linkHref.val() === $linkHref.attr('title') || $linkText.val() === $linkText.attr('title')) ? '' : $linkText.val()),
-				'link_href'		: ($linkHref.val() === $linkHref.attr('title') ? '' : $linkHref.val()),
+				'link_text' 	: ((linkHrefVal === $linkHref.attr('title') || $linkText.val() === $linkText.attr('title')) ? '' : $linkText.val()),
+				'link_href'		: (linkHrefVal ? linkHrefVal : ''),
 				'important'		: ($('#task-creator').hasClass('important') ? 1 : 0)
 			},
 			success: function(data) {

@@ -7,8 +7,8 @@
 		<?php echo form_dropdown('categories', $categories['cats'], $categories['ids'][0], 'id="categories"'); ?>
 		
 		<div class="creator-link-options">
-			<?php echo form_input( 'link-text', 'Label', 'id="link-text" title="Label"' ); ?>
-			<?php echo form_input( 'link-href', 'URL', 'id="link-href" title="URL"' ); ?>
+			<?php echo form_input( 'create-link-text', 'Label', 'id="create-link-text" title="Label"' ); ?>
+			<?php echo form_input( 'create-link-href', 'URL', 'id="create-link-href" title="URL"' ); ?>
 			<a class="flagger" title="Toggle Importance" href="#">Toggle Importance</a>
 		</div>
 
