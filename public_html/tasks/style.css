@@ -645,6 +645,7 @@ h1 {
 		border-top: none;
 		display: none;
 		height: 30px;
+		position: relative;
 	}
 	
 	.edit-bar-open .edit-bar,
@@ -721,7 +722,11 @@ h1 {
 		.add-link {
 			background-position: -60px -90px;
 		}
-		
+
+		.editing-link .add-link {
+			background-color: #706D77;
+		}
+				
 		.add-link:hover,
 		.linked .add-link {
 			background-position: -60px -120px;
@@ -756,8 +761,16 @@ h1 {
 		}
 		
 		#link-editor {
-			float: right;
+			background: #706D77;
+			-moz-border-radius: 0 0 3px 3px;
+			-webkit-border-radius: 0 0 3px 3px;
+			border-radius: 0 0 3px 3px;
+			position: absolute;
+				top: 30px;
+				right: 61px;
+			width: 340px;
 			height: 30px;
+			z-index: 100;
 		}
 		
 			#link-editor input {
@@ -770,7 +783,7 @@ h1 {
 				float: left;
 				margin: 2px;
 				padding: 2px 5px;
-				width: 134px;
+				width: 154px;
 				height: 20px;
 				line-height: 20px;
 			}

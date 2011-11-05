@@ -191,7 +191,8 @@ $(document).ready(function() {
 	
 	// Focus on task
 	$('.category').delegate('.task', 'focus', function(e){
-		$('.edit-bar-open').removeClass('edit-bar-open');
+		$('.edit-bar-open').removeClass('edit-bar-open editing-link');
+		$('#link-editor').remove();
 		$(this).parent().addClass('edit-bar-open');
 	});
 		
@@ -315,10 +316,7 @@ $(document).ready(function() {
 						'<input type="submit" id="save-link" value="Save Link">',
 					'</form>'
 			];
-			$(editor.join(''))
-				.css('width', 0)
-				.appendTo($editBar)
-				.animate({'width': 300});
+			$(editor.join('')).appendTo($editBar);
 			$parentRow.addClass('editing-link');
 			
 		}
