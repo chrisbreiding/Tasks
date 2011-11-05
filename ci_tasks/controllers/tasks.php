@@ -33,7 +33,6 @@ class Tasks extends CI_Controller {
 		);
 		
 		$this->load->view('tasks_view', $data);
-		
 	}
 	
 	public function completed()
@@ -84,5 +83,5 @@ class Tasks extends CI_Controller {
 	{
 		$this->tasks_model->destroy_task();
 	}
-		
+	
 }

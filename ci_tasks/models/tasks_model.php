@@ -74,11 +74,13 @@ class Tasks_model extends CI_Model {
 					'category_id' => $category->id, 
 					'date_completed' => $uri_date
 				));
-				$data[] = array(
-					'cat_name' => $category->category,
-					'cat_id' => $category->id,
-					'tasks' => $q->result()
-				);
+				if($q->num_rows() > 0) {
+					$data[] = array(
+						'cat_name' => $category->category,
+						'cat_id' => $category->id,
+						'tasks' => $q->result()
+					);
+				}
 			}
 		} else {
 			$q_1 = $this->db->order_by('order', 'asc')->get_where('categories', array(
@@ -101,11 +103,13 @@ class Tasks_model extends CI_Model {
 					'category_id' => $category->id, 
 					'date_completed' => $uri_date
 				));
-				$data[0][] = array(
-					'cat_name' => $category->category,
-					'cat_id' => $category->id,
-					'tasks' => $q->result()
-				);
+				if($q->num_rows() > 0) {
+					$data[0][] = array(
+						'cat_name' => $category->category,
+						'cat_id' => $category->id,
+						'tasks' => $q->result()
+					);
+				}
 			}
 			foreach ($col_2_categories as $category) {
 				$q = $this->db->order_by('order', 'asc')->get_where('tasks', array(
@@ -113,11 +117,13 @@ class Tasks_model extends CI_Model {
 					'category_id' => $category->id, 
 					'date_completed' => $uri_date
 				));
-				$data[1][] = array(
-					'cat_name' => $category->category,
-					'cat_id' => $category->id,
-					'tasks' => $q->result()
-				);
+				if($q->num_rows() > 0) {
+					$data[1][] = array(
+						'cat_name' => $category->category,
+						'cat_id' => $category->id,
+						'tasks' => $q->result()
+					);
+				}
 			}
 			
 		}
