@@ -10,7 +10,10 @@
 
 	<div class="container">
 
-		<a class="logout" href="/tasks/logout">Log Out</a>
+		<ul class="options-bar">
+			<li class="settings-link"><a title="Settings" href="/tasks/settings">Settings</a></li>
+			<li class="logout"><a href="/tasks/logout">Log Out</a></li>
+		</ul>
 
 		<div class="header clearfix">
 		

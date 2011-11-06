@@ -1,4 +1,4 @@
-<?php echo form_open('tasks/create', array('id' => 'task-creator', 'class' => 'clearfix')); ?>
+<?php echo form_open('/tasks/create', array('id' => 'task-creator', 'class' => 'clearfix')); ?>
 
 	<?php echo form_input( 'task', '', 'id="task"' ); ?>
 

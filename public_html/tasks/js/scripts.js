@@ -168,7 +168,13 @@ $(document).ready(function() {
 			}
 		});
 	});
-	
+
+	// Add task on enter
+	$('.create-task').delegate('#submit-task', 'click', function(e){
+		e.preventDefault();
+		$('#save-task').trigger('click');
+	});
+		
 	// When clicking outside tasklist
 	$(document.body).click(function() {
 		$('.date-changer').hide();									// Hide date changers
