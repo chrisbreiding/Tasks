@@ -16,11 +16,9 @@ h1 {
 /*** Login ****/
 
 .login {
-	background: #F5F4E8;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	border: double 3px #5B7538;
 	margin: 20px auto;
 	padding: 20px;
 	width: 300px;
@@ -150,8 +148,10 @@ h1 {
 
 /**** Header ****/
 
+.login,
 .header,
-.category {
+.category,
+.settings .container {
 	background: #D6D3DD url('ui/cat-bg.jpg');
 }
 
@@ -185,7 +185,9 @@ h1 {
 	.ui-datepicker-trigger,
 	#create-task,
 	.previous-day,
-	.next-day {
+	.next-day,
+	#add-cat,
+	#cat-creator {
 		background: #948FA0;
 		background: -webkit-gradient(linear, left top, left bottom, from(#948FA0), to(#706D77));
 		background: -moz-linear-gradient(top, #948FA0, #706D77);
@@ -201,15 +203,11 @@ h1 {
 	}
 	
 	.today-shortcut:hover,
-	.today-shortcut:focus,
 	.ui-datepicker-trigger:hover,
-	.ui-datepicker-trigger:focus,
 	#create-task:hover,
-	#create-task:focus,
 	.previous-day:hover,
-	.previous-day:focus,
 	.next-day:hover,
-	.next-day:focus {
+	#add-cat:hover {
 		background: #AAA5B6;
 		background: -webkit-gradient(linear, left top, left bottom, from(#AAA5B6), to(#87838F));
 		background: -moz-linear-gradient(top, #AAA5B6, #87838F);		
@@ -311,7 +309,7 @@ h1 {
 			position: absolute;
 				right: -5px;
 				top: 35px;
-			width: 500px;
+			width: 487px;
 			z-index: 10;
 		}
 		
@@ -323,7 +321,7 @@ h1 {
 				border: solid 1px #44414B;
 				border-bottom-color: #948FA0;
 				padding: 5px 10px;
-				width: 478px;
+				width: 466px;
 				height: 30px;
 				line-height: 30px;
 			}
@@ -1031,3 +1029,225 @@ h1 {
 					color: #FFF;
 				}
 				
+
+/**** Settings ****/
+
+.settings .container {
+	-moz-border-radius: 0 0 3px 3px;
+	-webkit-border-radius: 0 0 3px 3px;
+	border-radius: 0 0 3px 3px;
+	border: solid 1px #33461B;
+	-moz-box-shadow: 0 0 15px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0 0 15px rgba(0,0,0,0.5);
+	box-shadow: 0 0 15px rgba(0,0,0,0.5);
+	padding: 20px;
+	position: relative;
+	width: 572px;
+}
+
+	#saving-settings,
+	#saved-message {
+		display: none;
+		position: absolute;
+			top: 15px;
+			right: 20px;
+	}
+	
+	#saved-message {
+		color: #696475;
+		font-size: .9em;
+		height: 32px;
+		line-height: 32px;
+	}
+
+	.settings .section {
+		margin-top: 20px;
+	}
+	
+		.settings-header {
+			margin-bottom: 10px;
+			position: relative;
+		}
+		
+			.settings-header h2 {
+				font-size: 1.2em;
+			}
+			
+			#add-cat {
+				display: block;
+				font-size: 2em;
+				position: absolute;
+					top: 0;
+					right: 0;
+				text-align: center;
+				text-decoration: none;
+				width: 30px;
+				height: 30px;
+				line-height: 22px;
+			}
+			
+			#cat-creator {
+				-moz-border-radius: 3px 0 0 3px;
+				-webkit-border-radius: 3px 0 0 3px;
+				border-radius: 3px 0 0 3px;
+				border-right: none;
+				position: absolute;
+					top: 0;
+					right: 30px;
+				width: 0;
+				z-index: 10;
+			}
+			
+				#new-cat {
+					background: #FFF;
+					border: solid 1px #c3c3c3;
+					-moz-border-radius: 3px;
+					-webkit-border-radius: 3px;
+					border-radius: 3px;
+					display: none;
+					float: left;
+					margin: 2px;
+					padding: 2px 5px;
+					width: 134px;
+					height: 20px;
+					line-height: 20px;
+				}
+				
+				#submit-cat {
+					position: absolute;
+					left: -9999px;
+				}
+			
+		.settings .content {
+			background: rgba(0, 0, 0, 0.1);
+			border: solid 1px #948FA0;
+			padding: 15px;
+		}
+		
+			.col-select {
+				margin: 0 auto;
+				width: 240px;
+			}
+		
+				.col-select li {
+					background: #948FA0;
+					background: -webkit-gradient(linear, left top, left bottom, from(#948FA0), to(#706D77));
+					background: -moz-linear-gradient(top, #948FA0, #706D77);
+					border: solid 1px #948FA0;
+					-moz-box-shadow: inset 0 0 1px rgba(255,255,255,0.5);
+					-webkit-box-shadow: inset 0 0 1px rgba(255,255,255,0.5);
+					box-shadow: inset 0 0 1px rgba(255,255,255,0.5);
+					cursor: pointer;
+					float: left;
+					padding: 14px;
+					width: 90px;
+					height: 90px;
+				}
+				
+				.col-select li:hover {
+					background: #858091;
+					background: -webkit-gradient(linear, left top, left bottom, from(#858091), to(#5E5B64));
+					background: -moz-linear-gradient(top, #858091, #6C6375);
+				}
+				
+				.layout-1 .col-select .col-select-1,
+				.layout-2 .col-select .col-select-2 {
+					background: #4B4552;
+					background: -webkit-gradient(linear, left top, left bottom, from(#4B4552), to(#5E5B64));
+					background: -moz-linear-gradient(top, #4B4552, #6C6375);
+					border-color: #2D2138;
+					cursor: default;
+				}
+				
+				.col-select li:first-child {
+					border-top-left-radius: 6px;
+					border-bottom-left-radius: 6px;
+				}
+	
+				.col-select li:last-child {
+					border-top-right-radius: 6px;
+					border-bottom-right-radius: 6px;
+				}
+				
+					.col-select span {
+						border: solid 1px #D6D3DD;
+						color: #D6D3DD;
+						display: block;
+						text-align: center;
+						width: 38px;
+						height: 88px;
+						line-height: 88px;
+						text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.5);
+					}
+					
+					.col-select .col-select-1 span {
+						margin: 0 auto;
+						width: 48px;
+					}
+					
+					.col-select .col-select-2 span {
+						float: left;
+						margin-left: 10px;				
+					}
+	
+					.col-select .col-select-2 span:first-child {
+						margin: 0;
+					}
+			
+			.cat-settings-col {
+				border: solid 1px #948FA0;
+				padding: 5px 10px;
+				width: 240px;
+			}
+						
+			.layout-1 .cat-settings-col {
+				margin: 0 auto;
+			}
+			
+			.layout-2 .cat-settings-col {
+				float: left;
+				margin: 4px;
+			}
+			
+				.cat-settings-col li {
+					background: #948FA0;
+					background: -webkit-gradient(linear, left top, left bottom, from(#948FA0), to(#706D77));
+					background: -moz-linear-gradient(top, #948FA0, #706D77);
+					-moz-border-radius: 3px;
+					-webkit-border-radius: 3px;
+					border-radius: 3px;
+					border: solid 1px #948FA0;
+					color: #D6D3DD;
+					height: 30px;
+					line-height: 30px;
+					margin: 5px 0;
+					padding: 0 10px 0 35px;
+					position: relative;
+					text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.5);
+				}
+
+				.cat-settings-col li.ui-settings-placeholder {
+					background: none;
+					border-style: dashed;
+					height: 30px;
+				}
+				
+					.cat-settings-col .cat-handle {
+						background: url('ui/icon-sprite.png') 0 -120px no-repeat;
+						cursor: move;
+						display: block;
+						position: absolute;
+							left: 0;
+							top: 0;
+						width: 30px;
+						height: 30px;
+					}
+					
+					.cat-settings-col .cat-handle:hover {
+						background-position: -30px -120px;
+					}
+					
+		
+					
+					
+										

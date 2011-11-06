@@ -24,7 +24,7 @@
 			<?php } ?>
 			
 			<a class="delete" title="Delete" href="#">Delete</a>
-			<a class="confirm-delete" title="Confirm Deletion" href="/tasks/tasks/destroy/<?php echo $task->id; ?>">Confirm Delete</a>
+			<a class="confirm-delete" title="Confirm Deletion" href="/tasks/destroy/<?php echo $task->id; ?>">Confirm Delete</a>
 			
 			<?php if($task->completed == 1) { ?>
 				<div class="date-change">

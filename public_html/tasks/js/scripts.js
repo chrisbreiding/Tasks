@@ -6,7 +6,7 @@ $(document).ready(function() {
 			}
 			$.ajax({
 				type: 'POST',
-				 url: '/tasks/tasks/update',
+				 url: '/tasks/update',
 				data: data,
 				success: function() {
 					if($parentRow) {
@@ -30,7 +30,7 @@ $(document).ready(function() {
 		updateOrder = function($categoryDiv) {
 			$.ajax({
 				type: 'POST',
-				url: '/tasks/tasks/sort_tasks',
+				url: '/tasks/sort_tasks',
 				data: $categoryDiv.sortable('serialize')
 			});
 		},
@@ -87,7 +87,7 @@ $(document).ready(function() {
 		}
 	});
 	
-	// Create a new task
+	// Click add task
 	$('#create-task').click(function(e) {
 		var $createTask = $('.create-task');
 		
@@ -97,7 +97,7 @@ $(document).ready(function() {
 			$createTask.removeClass('creating-task');
 			$('#task-creator').remove();
 		} else {
-			$.get('/tasks/tasks/task_creator', function(data) {
+			$.get('/tasks/task_creator', function(data) {
 				$createTask.append(data).addClass('creating-task');
 				$('#task').focus();
 			});
@@ -138,6 +138,7 @@ $(document).ready(function() {
 		$('#task-creator').hide().remove();
 	});
 	
+	// Create a new task
 	$('.create-task').delegate('#save-task', 'click', function(e){
 		var category = $('#categories').val(),
 			$categoryDiv = $('#cat-' + category),
@@ -149,7 +150,7 @@ $(document).ready(function() {
 		e.preventDefault();
 		$.ajax({
 			type: 'POST',
-			url: '/tasks/tasks/create',
+			url: '/tasks/create',
 			data: {
 				'task' 			: $('#task').val() || '',
 				'category_id' 	: category,
@@ -310,7 +311,7 @@ $(document).ready(function() {
 			} 
 
 			editor = [
-					'<form id="link-editor" accept-charset="utf-8" method="post" action="http://chrisbreiding.com/tasks/tasks/update">',
+					'<form id="link-editor" accept-charset="utf-8" method="post" action="http://chrisbreiding.com/tasks/update">',
 						'<input type="text" id="link-text" class="' + editorClass + '" value="' + thisLinkText + '" title="Label" />',
 						'<input type="text" id="link-href" class="' + editorClass + '" value="' + thisLinkHref + '" title="URL" />',
 						'<input type="submit" id="save-link" value="Save Link">',
@@ -410,7 +411,7 @@ $(document).ready(function() {
 		prevText:		'Previous Month',
 		dateFormat: 	'yy-mm-dd',
 		onSelect: 		function(dateText, inst) { 
-			window.location = '/tasks/tasks/completed/' + dateText;
+			window.location = '/tasks/completed/' + dateText;
 		}
 	});
 	

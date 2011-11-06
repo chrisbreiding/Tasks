@@ -15,7 +15,7 @@
 		<div class="header clearfix">
 		
 			<h1><a href="/tasks/">Tasks</a></h1>
-			<?php if( !$this->uri->segment(3) ) { ?>
+			<?php if( !$this->uri->segment(2) ) { ?>
 				<div class="create-task">
 					<a id="create-task" href="#">+</a>
 				</div>
@@ -25,14 +25,14 @@
 				<input id="date-input" type="hidden" />
 			</div>
 			
-			<?php if( $this->uri->segment(3) ) { ?>
-				<a class="next-day" href="/tasks/tasks/completed/<?php echo $date['tomorrow']; ?>">&gt;</a>
+			<?php if( $this->uri->segment(2) ) { ?>
+				<a class="next-day" href="/tasks/completed/<?php echo $date['tomorrow']; ?>">&gt;</a>
 				<div class="date">
 					<?php echo $date['today_long']; ?>
 				</div>
-				<a class="previous-day" href="/tasks/tasks/completed/<?php echo $date['yesterday']; ?>">&lt;</a>
+				<a class="previous-day" href="/tasks/completed/<?php echo $date['yesterday']; ?>">&lt;</a>
 			<?php } else { ?>
-				<a class="today-shortcut" title="Today's Completed Tasks" href="/tasks/tasks/completed/<?php echo $date['today_slug']; ?>">Today</a>
+				<a class="today-shortcut" title="Today's Completed Tasks" href="/tasks/completed/<?php echo $date['today_slug']; ?>">Today</a>
 			<?php } ?>
 			
 		</div><!-- /.header -->
