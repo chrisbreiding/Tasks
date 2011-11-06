@@ -162,6 +162,7 @@ $(document).ready(function() {
 				$('.create-task').removeClass('creating-task');
 				$('#task-creator').hide().remove();
 				$(data).appendTo($categoryDiv).hide().fadeIn('fast', function() {
+					$categoryDiv.removeClass('empty');
 					updateOrder($categoryDiv);
 					$('.category').sortable('refresh');
 				});
@@ -278,6 +279,10 @@ $(document).ready(function() {
 			$parentRow = $this.parent().parent('.task-row');
 
 		e.preventDefault();
+		
+		if($parentRow.siblings('.task-row').length === 0) {
+			$parentRow.parent().addClass('empty');
+		}
 
 		$.ajax({
 			url: url,
