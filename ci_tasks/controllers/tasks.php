@@ -12,7 +12,7 @@ class Tasks extends CI_Controller {
 	    
 		$this->user_id = $this->session->userdata('tasks_user_id');
 
-		$this->load->model('user_model');		
+		$this->load->model('user_model');
 		$user_info = $this->user_model->get_user_info($this->user_id);
 		$this->user = $user_info->username;
 		$this->layout = $user_info->layout;

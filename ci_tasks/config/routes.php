@@ -46,7 +46,8 @@ $route['update'] = 'tasks/update';
 $route['destroy/:num'] = 'tasks/destroy';
 $route['sort_tasks'] = 'tasks/sort_tasks';
 $route['task_creator'] = 'tasks/task_creator';
-$route['logout'] = 'login/logout';
+$route['login'] = 'users/login';
+$route['logout'] = 'users/logout';
 
 
 /* End of file routes.php */

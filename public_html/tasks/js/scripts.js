@@ -415,12 +415,12 @@ $(document).ready(function() {
 	    buttonText: 	'Pick Date',
 	    buttonImageOnly: true, 
 	    buttonImage: 	'/tasks/ui/date-picker.png',
+		dateFormat: 	'yy-mm-dd',
 		defaultDate: 	cbTasks.date,
 		gotoCurrent: 	true,
 		maxDate: 		0,
 		nextText:		'Next Month',
 		prevText:		'Previous Month',
-		dateFormat: 	'yy-mm-dd',
 		onSelect: 		function(dateText, inst) { 
 			window.location = '/tasks/completed/' + dateText;
 		}
@@ -430,12 +430,12 @@ $(document).ready(function() {
 		
 	// Completed task date picker
 	$('.date-changer').datepicker({
+		dateFormat: 	'yy-mm-dd',
 		defaultDate: 	cbTasks.date,
 		gotoCurrent: 	true,
 		maxDate: 		0,
 		nextText:		'Next Month',
 		prevText:		'Previous Month',
-		dateFormat: 	'yy-mm-dd',
 		onSelect: 		function(dateText, inst) { 
 			var $parentRow = $(this).parent().parent().parent();
 
