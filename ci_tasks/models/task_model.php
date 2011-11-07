@@ -1,6 +1,6 @@
 <?php
 
-class Tasks_model extends CI_Model {
+class Task_model extends CI_Model {
 	
 	public function get_incomplete_tasks($user_id, $layout) {
 		if($layout == 1) {
@@ -128,20 +128,6 @@ class Tasks_model extends CI_Model {
 				}
 			}
 			
-		}
-		return $data;
-	}
-	
-	public function get_categories($user_id) {
-		$q = $this->db->order_by('order', 'asc')->get_where('categories', array('user_id' => $user_id));
-		$categories = $q->result();
-		$data = array(
-			'ids' => array(),
-			'cats' => array()
-		);
-		foreach($categories as $category) {
-			$data['ids'][] = $category->id;
-			$data['cats'][$category->id] = $category->category;
 		}
 		return $data;
 	}

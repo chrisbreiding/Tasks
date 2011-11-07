@@ -12,7 +12,7 @@
 
 		<ul class="options-bar">
 			<li class="settings-link"><a title="Settings" href="/tasks/settings">Settings</a></li>
-			<li class="logout"><a href="/tasks/logout">Log Out</a></li>
+			<li class="logout"><a title="Log Out" href="/tasks/logout">Log Out</a></li>
 		</ul>
 
 		<div class="header clearfix">
@@ -20,7 +20,7 @@
 			<h1><a href="/tasks/">Tasks</a></h1>
 			<?php if( !$this->uri->segment(2) ) { ?>
 				<div class="create-task">
-					<a id="create-task" href="#">+</a>
+					<a id="create-task" title="New Task" href="#">+</a>
 				</div>
 			<?php } ?>
 			

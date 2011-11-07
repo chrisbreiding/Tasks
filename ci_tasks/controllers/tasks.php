@@ -17,7 +17,7 @@ class Tasks extends CI_Controller {
 		$this->user = $user_info->username;
 		$this->layout = $user_info->layout;
 	    
-		$this->load->model('tasks_model');
+		$this->load->model('task_model');
 	}
        	
 	public function index()
@@ -29,7 +29,7 @@ class Tasks extends CI_Controller {
 			'body_class' => 'incomplete-tasks layout-' . $this->layout,
 			'date' => $this->taskdate->current_date(),
 			'columns' => $this->layout,
-			'task_data' => $this->tasks_model->get_incomplete_tasks($this->user_id, $this->layout)
+			'task_data' => $this->task_model->get_incomplete_tasks($this->user_id, $this->layout)
 		);
 		
 		$this->load->view('tasks_view', $data);
@@ -44,7 +44,7 @@ class Tasks extends CI_Controller {
 			'body_class' => 'complete-tasks layout-' . $this->layout,
 			'date' => $this->taskdate->past_date($uri_date),
 			'columns' => $this->layout,
-			'task_data' => $this->tasks_model->get_tasks_by_date($this->user_id, $uri_date, $this->layout)
+			'task_data' => $this->task_model->get_tasks_by_date($this->user_id, $uri_date, $this->layout)
 		);
 		$data['title'] = ucfirst( $this->user ) . '\'s Tasks - ' . $data['date']['today_long'];
 		
@@ -54,12 +54,13 @@ class Tasks extends CI_Controller {
 	public function sort_tasks()
 	{
 		$tasks = $this->input->post();
-		$this->tasks_model->update_task_order($tasks['task']);
+		$this->task_model->update_task_order($tasks['task']);
 	}
 	
 	public function task_creator() 
 	{
-		$data['categories'] = $this->tasks_model->get_categories($this->user_id);
+		$this->load->model('category_model');
+		$data['categories'] = $this->category_model->get_categories($this->user_id);
 		$this->load->view('_task_creator', $data);
 	}
 	
@@ -69,19 +70,19 @@ class Tasks extends CI_Controller {
 		$new_task['completed'] = 0;
 		$new_task['user_id'] = $this->user_id;
 
-		$data['tasks'] = $this->tasks_model->create_task($new_task);
+		$data['tasks'] = $this->task_model->create_task($new_task);
 		$this->load->view('_tasks', $data);
 	}
 
 	public function update()
 	{
 		$data = $this->input->post();
-		$this->tasks_model->update_task($data);
+		$this->task_model->update_task($data);
 	}
 	
 	public function destroy()
 	{
-		$this->tasks_model->destroy_task();
+		$this->task_model->destroy_task();
 	}
 	
 }
