@@ -4,7 +4,7 @@ class Tasks_model extends CI_Model {
 	
 	public function get_incomplete_tasks($user_id, $layout) {
 		if($layout == 1) {
-			$q = $this->db->order_by('order', 'asc')->get_where('categories', array('user_id' => $user_id));
+			$q = $this->db->order_by('order', 'asc')->get_where('categories', array('user_id' => $user_id, 'display' => 1));
 			$categories = $q->result();
 			$data = array();
 			foreach ($categories as $category) {
@@ -22,12 +22,14 @@ class Tasks_model extends CI_Model {
 		} else {
 			$q_1 = $this->db->order_by('order', 'asc')->get_where('categories', array(
 				'user_id' => $user_id, 
-				'column' => 1
+				'column' => 1, 
+				'display' => 1
 			));
 			$col_1_categories = $q_1->result();
 			$q_2 = $this->db->order_by('order', 'asc')->get_where('categories', array(
 				'user_id' => $user_id, 
-				'column' => 2
+				'column' => 2, 
+				'display' => 1
 			));
 			$col_2_categories = $q_2->result();
 			$data = array(
