@@ -8,12 +8,12 @@
 </head>
 <body class="<?php echo $body_class; ?>">
 
-	<div class="container">
+	<ul class="options-bar">
+		<li class="settings-link"><a title="Settings" href="/tasks/settings">Settings</a></li>
+		<li class="logout"><a title="Log Out" href="/tasks/logout">Log Out</a></li>
+	</ul>
 
-		<ul class="options-bar">
-			<li class="settings-link"><a title="Settings" href="/tasks/settings">Settings</a></li>
-			<li class="logout"><a title="Log Out" href="/tasks/logout">Log Out</a></li>
-		</ul>
+	<div class="container">
 
 		<div class="header clearfix">
 		
