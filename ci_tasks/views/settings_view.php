@@ -8,13 +8,13 @@
 </head>
 <body class="<?php echo $body_class; ?>">
 
+	<ul class="options-bar">
+		<li class="tasks-link"><a title="Return to Tasks" href="/tasks">Return to Tasks</a></li>
+		<li class="logout"><a href="/tasks/logout">Log Out</a></li>
+	</ul>
+
 	<div class="container">
 		
-		<ul class="options-bar">
-			<li class="tasks-link"><a title="Return to Tasks" href="/tasks">Return to Tasks</a></li>
-			<li class="logout"><a href="/tasks/logout">Log Out</a></li>
-		</ul>
-
 		<h1>Settings</h1>
 		
 		<img id="saving-settings" src="<?php echo base_url(); ?>ui/saving-big.gif" width="32" height="32" alt="" />
