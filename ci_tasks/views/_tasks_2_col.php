@@ -1,6 +1,4 @@
-<?php
-	$no_tasks = true;
-?>
+<?php $no_tasks = true; ?>
 
 <?php foreach( $task_data as $task_cols => $task_cats ) { ?>
 	
@@ -29,6 +27,6 @@
 	
 <?php if($no_tasks) { ?>
 
-	<div class="no-results"><?php echo $this->uri->segment(3) ? 'No Tasks Completed On This Date' : 'No Incomplete Tasks'; ?></div>
+	<div class="no-results"><?php echo $this->uri->segment(2) ? 'No Tasks Completed On This Date' : 'No Incomplete Tasks'; ?></div>
 	
 <?php }
