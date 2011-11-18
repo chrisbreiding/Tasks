@@ -9,8 +9,8 @@
 <body class="<?php echo $body_class; ?>">
 
 	<ul class="options-bar">
-		<li class="tasks-link"><a title="Return to Tasks" href="/tasks">Return to Tasks</a></li>
-		<li class="logout"><a href="/tasks/logout">Log Out</a></li>
+		<li class="tasks-link"><a title="Return to Tasks" href="<?php echo base_url(); ?>">Return to Tasks</a></li>
+		<li class="logout"><a href="<?php echo base_url(); ?>logout">Log Out</a></li>
 	</ul>
 
 	<div class="container">

@@ -414,7 +414,7 @@ $(document).ready(function() {
 		showOn: 		'button',
 	    buttonText: 	'Pick Date',
 	    buttonImageOnly: true, 
-	    buttonImage: 	'/tasks/ui/date-picker.png',
+	    buttonImage: 	'/ui/date-picker.png',
 		dateFormat: 	'yy-mm-dd',
 		defaultDate: 	cbTasks.date,
 		gotoCurrent: 	true,

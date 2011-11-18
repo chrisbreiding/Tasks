@@ -152,7 +152,7 @@ class Task_model extends CI_Model {
 	}
 	
 	public function destroy_task() {
-		$this->db->where('id', $this->uri->segment(2) );
+		$this->db->where('id', $this->uri->segment(3) );
 		$this->db->delete('tasks');
 	}
 	

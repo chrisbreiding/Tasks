@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://chrisbreiding.com/tasks/';
+$config['base_url']	= 'http://tasks.crbapps.com/';
 
 /*
 |--------------------------------------------------------------------------

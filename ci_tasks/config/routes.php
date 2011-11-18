@@ -40,12 +40,6 @@
 
 $route['default_controller'] = "tasks";
 $route['404_override'] = '';
-$route['completed/:any'] = 'tasks/completed';
-$route['create'] = 'tasks/create';
-$route['update'] = 'tasks/update';
-$route['destroy/:num'] = 'tasks/destroy';
-$route['sort_tasks'] = 'tasks/sort_tasks';
-$route['task_creator'] = 'tasks/task_creator';
 $route['login'] = 'users/login';
 $route['logout'] = 'users/logout';
 

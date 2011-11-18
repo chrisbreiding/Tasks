@@ -37,7 +37,7 @@ class Tasks extends CI_Controller {
 	
 	public function completed()
 	{
-		$uri_date = $this->uri->segment(2);
+		$uri_date = $this->uri->segment(3);
 		$this->load->library('taskdate');
 		
 		$data = array(

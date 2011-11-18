@@ -9,16 +9,16 @@
 <body class="<?php echo $body_class; ?>">
 
 	<ul class="options-bar">
-		<li class="settings-link"><a title="Settings" href="/tasks/settings">Settings</a></li>
-		<li class="logout"><a title="Log Out" href="/tasks/logout">Log Out</a></li>
+		<li class="settings-link"><a title="Settings" href="<?php echo base_url(); ?>settings">Settings</a></li>
+		<li class="logout"><a title="Log Out" href="<?php echo base_url(); ?>logout">Log Out</a></li>
 	</ul>
 
 	<div class="container">
 
 		<div class="header clearfix">
 		
-			<h1><a href="/tasks/">Tasks</a></h1>
-			<?php if( !$this->uri->segment(2) ) { ?>
+			<h1><a href="<?php echo base_url(); ?>">Tasks</a></h1>
+			<?php if( !$this->uri->segment(3) ) { ?>
 				<div class="create-task">
 					<a id="create-task" title="New Task" href="#">+</a>
 				</div>
@@ -28,7 +28,7 @@
 				<input id="date-input" type="hidden" />
 			</div>
 			
-			<?php if( $this->uri->segment(2) ) { ?>
+			<?php if( $this->uri->segment(3) ) { ?>
 				<a class="next-day" href="/tasks/completed/<?php echo $date['tomorrow']; ?>">&gt;</a>
 				<div class="date">
 					<?php echo $date['today_long']; ?>
