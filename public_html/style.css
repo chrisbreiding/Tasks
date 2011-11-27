@@ -565,6 +565,10 @@ h1 {
 	position: relative;
 }
 
+.important {
+	border-color: #A30707;
+}
+
 .ui-sortable-helper {
 	opacity: 0.5;
 }
@@ -603,7 +607,7 @@ h1 {
 		}
 		
 		.important .completed a {
-			background-position: 0 -90px;
+/* 			background-position: 0 -90px; */
 		}
 		
 		.completed a:hover,
@@ -640,19 +644,21 @@ h1 {
 		-webkit-border-radius: 3px 3px 0 0;
 		border-radius: 3px 3px 0 0;
 	}
+
+	.important .task {
+		background-color: #FFF2F2;
+	}
 	
 	.linked .task {
-		background: #FFF url('ui/icon-sprite.png') 98% -210px no-repeat;
+		background-image: url('ui/icon-sprite.png');
+		background-position: 98% -210px;
+		background-repeat:  no-repeat;
 	}
 	
 	.saving .task {
-		background: #FFF url('ui/saving.gif') 98% 12px no-repeat;
-	}
-	
-	.task:hover {
-	}
-	
-	.edit-bar-open .task:hover {
+		background-image: url('ui/saving.gif');
+		background-position: 98% 12px;
+		background-repeat:  no-repeat;
 	}
 	
 	.saved {

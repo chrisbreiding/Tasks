@@ -66,6 +66,9 @@ $(document).ready(function() {
 			$parentRow.removeClass('editing-link').find('.task').focus();
 			
 		},
+		resizeBodyHeight = function() {
+			$(document.body).height($(window).height());
+		},
 		cbTasks = {};
 		
 	cbTasks.url = window.location.href;
@@ -77,7 +80,10 @@ $(document).ready(function() {
 	cbTasks.day = Number(cbTasks.date_arr[2]);
 	
 	// Expand height of body for when clicking outside of tasks
-	$(document.body).height($(window).height() - 20);
+	resizeBodyHeight();
+	$(window).resize(function() {
+		resizeBodyHeight();	
+	});
 	
 	// Give empty categories the "empty" class
 	$('.category').each(function() {
