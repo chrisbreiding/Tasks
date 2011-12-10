@@ -29,6 +29,7 @@ margin:				0 0 4px 0;
 	<div id="content">
 		<h1><?php echo $heading; ?></h1>
 		<?php echo $message; ?>
+		<p><a href="<?php echo base_url(); ?>">&laquo; Return Home</a></p>
 	</div>
 </body>
 </html>

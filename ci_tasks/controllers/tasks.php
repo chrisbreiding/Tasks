@@ -38,6 +38,11 @@ class Tasks extends CI_Controller {
 	public function completed()
 	{
 		$uri_date = $this->uri->segment(3);
+		
+		if ( !$uri_date || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $uri_date) ) {
+			show_404($this->uri->uri_string());
+		}
+		
 		$this->load->library('taskdate');
 		
 		$data = array(

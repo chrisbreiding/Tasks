@@ -601,13 +601,10 @@ h1 {
 			background-position: 0 0;
 			display: block;
 			float: left;
+			outline: none;
 			text-indent: -9999px;
 			width: 30px;
 			height: 30px;
-		}
-		
-		.important .completed a {
-/* 			background-position: 0 -90px; */
 		}
 		
 		.completed a:hover,
