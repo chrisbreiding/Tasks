@@ -4,7 +4,7 @@
 	
 	<?php if($task_cats) { $no_tasks = false; } ?>
 
-	<div class="tasks-col tasks-col-<?php echo $task_cols + 1; ?>">
+	<div class="tasks-col tasks-col-<?php echo $task_cols; ?>">
 				
 		<?php foreach($task_cats as $task_cat) { ?>
 			

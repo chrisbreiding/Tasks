@@ -11,7 +11,7 @@ $(document).ready(function() {
 			startSaving();
 			$.ajax({
 				type: 'POST',
-				 url: '/tasks/categories/update',
+				 url: '/categories/update',
 				data: data,
 				success: function() {
 					endSaving();
@@ -21,7 +21,7 @@ $(document).ready(function() {
 		updateOrder = function($catContainer) {
 			$.ajax({
 				type: 'POST',
-				url: '/tasks/categories/sort_categories',
+				url: '/categories/sort_categories',
 				data: $catContainer.sortable('serialize')
 			});
 		};
@@ -44,7 +44,7 @@ $(document).ready(function() {
 			startSaving();
 			$.ajax({
 				type 	: 'POST',
-				url		: '/tasks/users/update_layout',
+				url		: '/users/update_layout',
 				data	: {
 					'layout' : 1
 				},
@@ -61,7 +61,7 @@ $(document).ready(function() {
 			startSaving();
 			$.ajax({
 				type 	: 'POST',
-				url		: '/tasks/users/update_layout',
+				url		: '/users/update_layout',
 				data	: {
 					'layout' : 2
 				},
@@ -103,7 +103,7 @@ $(document).ready(function() {
 			if($newCat.val() !== '') {
 				$.ajax({
 					type 	: 'POST',
-					url 	: '/tasks/categories/create',
+					url 	: '/categories/create',
 					data 	: {
 						'category' : $newCat.val()
 					},
@@ -132,7 +132,7 @@ $(document).ready(function() {
 		var $this = $(this),
 			$cat = $this.parent(),
 			editor = [
-				'<form class="cat-editor" accept-charset="utf-8" method="post" action="/tasks/categories/update">',
+				'<form class="cat-editor" accept-charset="utf-8" method="post" action="/categories/update">',
 					'<input type="text" class="edit-cat-name" value="' + $this.html() + '" />',
 					'<input type="submit" class="save-cat-name" value="Save">',
 				'</form>'

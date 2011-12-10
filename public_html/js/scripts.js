@@ -187,7 +187,7 @@ $(document).ready(function() {
 		$('.date-changer').hide();									// Hide date changers
 		$('.link:hidden').show();									// Reveal any hidden links
 		
-		if($('#link-editor').length) {								// Handle an open link editor
+		if($('#link-editor').length) {								// If there's an open link editor
 			var $editBar = $('#link-editor').parent()
 			handleLink($editBar);
 		}

@@ -4,13 +4,15 @@ class Task_model extends CI_Model {
 	
 	public function get_incomplete_tasks($user_id, $layout) {
 		if($layout == 1) {
+		
+/*
 			$q = $this->db->order_by('order', 'asc')->get_where('categories', array('user_id' => $user_id, 'display' => 1));
 			$categories = $q->result();
 			$data = array();
 			foreach ($categories as $category) {
 				$q = $this->db->order_by('order', 'asc')->get_where('tasks', array(
-					'user_id' => $user_id, 
-					'category_id' => $category->id, 
+					'user_id' => $user_id,
+					'category_id' => $category->id,
 					'completed' => 0
 				));
 				$data[] = array(
@@ -19,7 +21,53 @@ class Task_model extends CI_Model {
 					'tasks' => $q->result()
 				);
 			}
+*/
+
+/*
+			$rows = $this->db
+					->select('categories.category, tasks.id, tasks.task, tasks.important, tasks.link_href, tasks.link_text, tasks.category_id')
+					->from('tasks, categories')
+					->where(array(
+						'categories.id' => 'tasks.category_id',
+						'categories.user_id' => $user_id, 
+						'categories.display' => 1,
+						'tasks.completed' => 0
+					))
+					->order_by('tasks.order', 'asc')
+					->get()
+					->result();
+*/
+
+			$q = $this->db->query(
+				'SELECT categories.category, tasks.id, tasks.task, tasks.important, tasks.link_href, tasks.link_text, tasks.category_id, tasks.completed 
+				FROM tasks, categories 
+				WHERE categories.id = tasks.category_id 
+				AND categories.user_id = 1 
+				AND categories.display = 1 
+				AND tasks.completed = 0 
+				ORDER BY categories.order, tasks.order ASC'
+			);
+			
+			$rows = $q->result();
+						
+			$data = array();
+			
+			foreach($rows as $row) {
+				$task = array(
+					'id' 			=> $row->id,
+					'completed'		=> $row->completed,
+					'task' 			=> $row->task,
+					'important' 	=> $row->important,
+					'link_href' 	=> $row->link_href,
+					'link_text' 	=> $row->link_text
+				);
+				$data[$row->category_id]['cat_id'] = $row->category_id;
+				$data[$row->category_id]['cat_name'] = $row->category;
+				$data[$row->category_id]['tasks'][] = $task;
+			}
+
 		} else {
+/*
 			$q_1 = $this->db->order_by('order', 'asc')->get_where('categories', array(
 				'user_id' => $user_id, 
 				'column' => 1, 
@@ -60,7 +108,40 @@ class Task_model extends CI_Model {
 					'tasks' => $q->result()
 				);
 			}
+*/
 			
+			$q = $this->db->query(
+				'SELECT categories.category, categories.column, tasks.id, tasks.task, tasks.important, tasks.link_href, tasks.link_text, tasks.category_id, tasks.completed 
+				FROM tasks, categories 
+				WHERE categories.id = tasks.category_id 
+				AND categories.user_id = 1 
+				AND categories.display = 1 
+				AND tasks.completed = 0 
+				ORDER BY categories.order, tasks.order ASC'
+			);
+			
+			$rows = $q->result();
+			
+			//return $rows;
+			
+			$data = array();
+			
+			foreach($rows as $row) {
+				$task = array(
+					'id' 			=> $row->id,
+					'completed'		=> $row->completed,
+					'task' 			=> $row->task,
+					'important' 	=> $row->important,
+					'link_href' 	=> $row->link_href,
+					'link_text' 	=> $row->link_text
+				);
+				$data[$row->column][$row->category_id]['cat_id'] = $row->category_id;
+				$data[$row->column][$row->category_id]['cat_name'] = $row->category;
+				$data[$row->column][$row->category_id]['tasks'][] = $task;
+			}
+			
+			ksort($data);
+
 		}
 		return $data;
 	}
