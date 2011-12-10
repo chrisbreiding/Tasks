@@ -73,10 +73,29 @@ class Task_model extends CI_Model {
 	}
 	
 	public function create_task($new_task) {
+	
 		$this->db->insert('tasks', $new_task);
+		
 		$id = $this->db->insert_id();
-		$q = $this->db->get_where( 'tasks', array( 'id' => $id ) );
-		return $q->result();
+		
+		$row = $this->db->select('id, completed, task, important, link_href, link_text')
+				->from('tasks')
+				->where( array( 'id' => $id ) )
+				->limit(1)
+				->get()
+				->row();
+				
+		$tasks[0] = array(
+			'id' 			=> $row->id,
+			'completed'		=> $row->completed,
+			'task' 			=> $row->task,
+			'important' 	=> $row->important,
+			'link_href' 	=> $row->link_href,
+			'link_text' 	=> $row->link_text
+		);
+		
+		return $tasks;
+		
 	}
 	
 	public function update_task($data) {
