@@ -3,55 +3,22 @@
 class Task_model extends CI_Model {
 	
 	public function get_incomplete_tasks($user_id, $layout) {
-		if($layout == 1) {
+		$q = $this->db->query(
+			"SELECT categories.category, categories.column, tasks.id, tasks.task, tasks.important, tasks.link_href, tasks.link_text, tasks.category_id, tasks.completed 
+			FROM tasks, categories 
+			WHERE categories.id = tasks.category_id 
+			AND categories.user_id = $user_id
+			AND tasks.user_id = $user_id
+			AND categories.display = 1 
+			AND tasks.completed = 0 
+			ORDER BY categories.order, tasks.order ASC"
+		);
 		
-/*
-			$q = $this->db->order_by('order', 'asc')->get_where('categories', array('user_id' => $user_id, 'display' => 1));
-			$categories = $q->result();
-			$data = array();
-			foreach ($categories as $category) {
-				$q = $this->db->order_by('order', 'asc')->get_where('tasks', array(
-					'user_id' => $user_id,
-					'category_id' => $category->id,
-					'completed' => 0
-				));
-				$data[] = array(
-					'cat_name' => $category->category,
-					'cat_id' => $category->id,
-					'tasks' => $q->result()
-				);
-			}
-*/
-
-/*
-			$rows = $this->db
-					->select('categories.category, tasks.id, tasks.task, tasks.important, tasks.link_href, tasks.link_text, tasks.category_id')
-					->from('tasks, categories')
-					->where(array(
-						'categories.id' => 'tasks.category_id',
-						'categories.user_id' => $user_id, 
-						'categories.display' => 1,
-						'tasks.completed' => 0
-					))
-					->order_by('tasks.order', 'asc')
-					->get()
-					->result();
-*/
-
-			$q = $this->db->query(
-				'SELECT categories.category, tasks.id, tasks.task, tasks.important, tasks.link_href, tasks.link_text, tasks.category_id, tasks.completed 
-				FROM tasks, categories 
-				WHERE categories.id = tasks.category_id 
-				AND categories.user_id = 1 
-				AND categories.display = 1 
-				AND tasks.completed = 0 
-				ORDER BY categories.order, tasks.order ASC'
-			);
+		$rows = $q->result();
+					
+		$data = array();
 			
-			$rows = $q->result();
-						
-			$data = array();
-			
+		if($layout == 1) {
 			foreach($rows as $row) {
 				$task = array(
 					'id' 			=> $row->id,
@@ -67,64 +34,6 @@ class Task_model extends CI_Model {
 			}
 
 		} else {
-/*
-			$q_1 = $this->db->order_by('order', 'asc')->get_where('categories', array(
-				'user_id' => $user_id, 
-				'column' => 1, 
-				'display' => 1
-			));
-			$col_1_categories = $q_1->result();
-			$q_2 = $this->db->order_by('order', 'asc')->get_where('categories', array(
-				'user_id' => $user_id, 
-				'column' => 2, 
-				'display' => 1
-			));
-			$col_2_categories = $q_2->result();
-			$data = array(
-				0 => array(),
-				1 => array()
-			);
-			foreach ($col_1_categories as $category) {
-				$q = $this->db->order_by('order', 'asc')->get_where('tasks', array(
-					'user_id' => $user_id, 
-					'category_id' => $category->id, 
-					'completed' => 0
-				));
-				$data[0][] = array(
-					'cat_name' => $category->category,
-					'cat_id' => $category->id,
-					'tasks' => $q->result()
-				);
-			}
-			foreach ($col_2_categories as $category) {
-				$q = $this->db->order_by('order', 'asc')->get_where('tasks', array(
-					'user_id' => $user_id, 
-					'category_id' => $category->id, 
-					'completed' => 0
-				));
-				$data[1][] = array(
-					'cat_name' => $category->category,
-					'cat_id' => $category->id,
-					'tasks' => $q->result()
-				);
-			}
-*/
-			
-			$q = $this->db->query(
-				'SELECT categories.category, categories.column, tasks.id, tasks.task, tasks.important, tasks.link_href, tasks.link_text, tasks.category_id, tasks.completed 
-				FROM tasks, categories 
-				WHERE categories.id = tasks.category_id 
-				AND categories.user_id = 1 
-				AND categories.display = 1 
-				AND tasks.completed = 0 
-				ORDER BY categories.order, tasks.order ASC'
-			);
-			
-			$rows = $q->result();
-			
-			//return $rows;
-			
-			$data = array();
 			
 			foreach($rows as $row) {
 				$task = array(
@@ -139,10 +48,11 @@ class Task_model extends CI_Model {
 				$data[$row->column][$row->category_id]['cat_name'] = $row->category;
 				$data[$row->column][$row->category_id]['tasks'][] = $task;
 			}
-			
-			ksort($data);
 
+			ksort($data);
+			
 		}
+		
 		return $data;
 	}
 
