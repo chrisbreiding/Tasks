@@ -60,10 +60,10 @@
 			</div>
 			
 			<div class="content clearfix">
-				
+			
 				<?php foreach($category_data as $task_cols => $categories) { ?>
 				
-					<ul class="cat-settings-col cat-settings-col-<?php echo $task_cols + 1; ?>" data-col="<?php echo $task_cols + 1; ?>">
+					<ul class="cat-settings-col cat-settings-col-<?php echo $task_cols; ?>" data-col="<?php echo $task_cols; ?>">
 					
 						<?php include(APPPATH . 'views/_categories.php'); ?>
 

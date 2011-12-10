@@ -2,41 +2,65 @@
 class Category_model extends CI_Model {
 
 	public function get_category_info($user_id, $layout) {
+	
+		$rows = $this->db
+				->select('id, category, column, display')
+				->from('categories')
+				->where(array(
+					'user_id' => $user_id, 
+				))
+				->order_by('order', 'asc')
+				->get()
+				->result();
+		
+		$data = array();
+		
 		if($layout == 1) {
-			$q = $this->db->order_by('order', 'asc')->get_where('categories', array('user_id' => $user_id));
-			$data = array($q->result());
+		
+			$data[1] = $rows;
+
 		} else {
-			$q_1 = $this->db->order_by('order', 'asc')->get_where('categories', array(
-				'user_id' => $user_id, 
-				'column' => 1
-			));
-			$q_2 = $this->db->order_by('order', 'asc')->get_where('categories', array(
-				'user_id' => $user_id, 
-				'column' => 2
-			));
-			$data = array(
-				$q_1->result(),
-				$q_2->result()
-			);
+			
+			$cats = array();
+			
+			foreach( $rows as $row ) {
+				$cats[$row->column][] = $row;
+			}
+			
+			$col_1 = isset($cats[1]) ? $cats[1] : array();
+			$col_2 = isset($cats[2]) ? $cats[2] : array();
+			
+			$data[1] = $col_1;
+			$data[2] = $col_2;
+			
 		}
+		
+		ksort($data);
+		
 		return $data;
 	}
 
 	public function get_categories($user_id) {
-		$q = $this->db->order_by('order', 'asc')->get_where('categories', array(
-			'user_id' => $user_id, 
-			'display' => 1
-		));
-		$categories = $q->result();
+		$categories = $this->db
+						->order_by('order', 'asc')
+						->get_where('categories', array(
+							'user_id' => $user_id, 
+							'display' => 1
+						))
+						->result();
+
 		$data = array(
 			'ids' => array(),
 			'cats' => array()
 		);
+		
 		foreach($categories as $category) {
 			$data['ids'][] = $category->id;
 			$data['cats'][$category->id] = $category->category;
 		}
+		
 		return $data;
+		
 	}
 		
 	public function create_category($new_cat) {
