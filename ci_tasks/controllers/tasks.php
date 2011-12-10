@@ -29,7 +29,7 @@ class Tasks extends CI_Controller {
 			'body_class' => 'incomplete-tasks layout-' . $this->layout,
 			'date' => $this->taskdate->current_date(),
 			'columns' => $this->layout,
-			'task_data' => $this->task_model->get_incomplete_tasks($this->user_id, $this->layout)
+			'task_data' => $this->task_model->get_tasks($this->user_id, $this->layout)
 		);
 		
 		$this->load->view('tasks_view', $data);
@@ -44,7 +44,7 @@ class Tasks extends CI_Controller {
 			'body_class' => 'complete-tasks layout-' . $this->layout,
 			'date' => $this->taskdate->past_date($uri_date),
 			'columns' => $this->layout,
-			'task_data' => $this->task_model->get_tasks_by_date($this->user_id, $uri_date, $this->layout)
+			'task_data' => $this->task_model->get_tasks($this->user_id, $this->layout, $uri_date)
 		);
 		$data['title'] = ucfirst( $this->user ) . '\'s Tasks - ' . $data['date']['today_long'];
 		
