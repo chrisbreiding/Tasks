@@ -13,8 +13,10 @@
 				<h2><?php echo $task_cat['cat_name']; ?></h2>
 
 				<?php 
-					$tasks = $task_cat['tasks'];
-					include(APPPATH . 'views/_tasks.php'); 
+					if( isset($task_cat['tasks']) ) {
+						$tasks = $task_cat['tasks'];
+						include(APPPATH . 'views/_tasks.php'); 
+					}
 				?>
 
 			</div><!-- /.category -->						

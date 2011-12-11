@@ -3,59 +3,76 @@
 class Task_model extends CI_Model {
 	
 	public function get_tasks($user_id, $layout, $uri_date = NULL) {
-	
-		$completed_or_not = $uri_date ? 1 : 0;
 		
-		$query = 
-			"SELECT categories.category, categories.column, tasks.id, tasks.task, tasks.important, tasks.link_href, tasks.link_text, tasks.category_id, tasks.completed
-			FROM tasks, categories 
-			WHERE categories.id = tasks.category_id 
-			AND categories.user_id = $user_id
-			AND tasks.user_id = $user_id
-			AND categories.display = 1 
-			AND tasks.completed = $completed_or_not";
-			
 		if($uri_date) {
-			$query .= 
-				" AND tasks.date_completed = '$uri_date'";
+			$join = "JOIN"; // date completed pages should not show empty categories
+			$completed_or_not = 1;
+			$date_completed_condition = " AND tasks.date_completed = '$uri_date'";
+		} else {
+			$join = "RIGHT JOIN";
+			$completed_or_not = 0;
+			$date_completed_condition = "";
 		}
 		
-		$query .= " ORDER BY categories.order, tasks.order ASC";
-		
+		$query = 
+			"SELECT * FROM (
+				SELECT categories.category, categories.column, tasks.id as task_id, tasks.task, tasks.important, tasks.link_href, tasks.link_text, categories.id as cat_id, tasks.completed, categories.user_id, categories.display
+				FROM tasks 
+				$join categories ON tasks.category_id = categories.id
+				AND tasks.user_id = $user_id
+				AND tasks.completed = $completed_or_not
+				$date_completed_condition
+				ORDER BY categories.order, tasks.order ASC
+			) AS t
+			WHERE t.user_id = $user_id
+			AND t.display = 1";
+			
 		$rows = $this->db->query($query)->result();
-					
+
 		$data = array();
 			
 		if($layout == 1) {
 		
 			foreach($rows as $row) {
+			
 				$task = array(
-					'id' 			=> $row->id,
+					'id' 			=> $row->task_id,
 					'completed'		=> $row->completed,
 					'task' 			=> $row->task,
 					'important' 	=> $row->important,
 					'link_href' 	=> $row->link_href,
 					'link_text' 	=> $row->link_text
 				);
-				$data[$row->category_id]['cat_id'] = $row->category_id;
-				$data[$row->category_id]['cat_name'] = $row->category;
-				$data[$row->category_id]['tasks'][] = $task;
+				
+				$data[$row->cat_id]['cat_id'] = $row->cat_id;
+				$data[$row->cat_id]['cat_name'] = $row->category;
+				
+				if($task['id']) {
+					$data[$row->cat_id]['tasks'][] = $task;
+				}
+				
 			}
 
 		} else {
 			
 			foreach($rows as $row) {
+			
 				$task = array(
-					'id' 			=> $row->id,
+					'id' 			=> $row->task_id,
 					'completed'		=> $row->completed,
 					'task' 			=> $row->task,
 					'important' 	=> $row->important,
 					'link_href' 	=> $row->link_href,
 					'link_text' 	=> $row->link_text
 				);
-				$data[$row->column][$row->category_id]['cat_id'] = $row->category_id;
-				$data[$row->column][$row->category_id]['cat_name'] = $row->category;
-				$data[$row->column][$row->category_id]['tasks'][] = $task;
+				
+				$data[$row->column][$row->cat_id]['cat_id'] = $row->cat_id;
+				$data[$row->column][$row->cat_id]['cat_name'] = $row->category;
+				
+				if($task['id']) {
+					$data[$row->column][$row->cat_id]['tasks'][] = $task;
+				}
+				
 			}
 
 			ksort($data);
@@ -66,10 +83,12 @@ class Task_model extends CI_Model {
 	}
 	
 	public function update_task_order($tasks) {
+	
 		foreach( $tasks as $order => $id) {
 			$this->db->where('id', $id);
 			$this->db->update('tasks', array( 'order' => $order ));
 		}
+		
 	}
 	
 	public function create_task($new_task) {
