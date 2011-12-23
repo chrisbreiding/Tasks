@@ -45,7 +45,7 @@ $(document).ready(function() {
 			$('#link-editor').remove();
 			
 			if( linkHrefVal ) { // If there's actually something to link
-				linkHrefVal = linkHrefVal.match(/^http:\/\//) ? linkHrefVal : 'http://' + linkHrefVal;
+				linkHrefVal = linkHrefVal.match(/^https?:\/\//) ? linkHrefVal : 'http://' + linkHrefVal;
 				data = {
 					id 			: $parentRow.data('id'),
 					link_text 	: linkTextVal,
@@ -151,7 +151,7 @@ $(document).ready(function() {
 			$linkText = $('#create-link-text'),
 			$linkHref = $('#create-link-href'),
 			linkHrefVal = $linkHref.val(),
-			linkHrefVal = linkHrefVal && (linkHrefVal !== $linkHref.attr('title')) && (linkHrefVal.match(/^http:\/\//) ? linkHrefVal : 'http://' + linkHrefVal);
+			linkHrefVal = linkHrefVal && (linkHrefVal !== $linkHref.attr('title')) && (linkHrefVal.match(/^https?:\/\//) ? linkHrefVal : 'http://' + linkHrefVal);
 			
 		e.preventDefault();
 		$.ajax({
