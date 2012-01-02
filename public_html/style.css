@@ -672,6 +672,10 @@ h1 {
 			right: 6px;
 		z-index: 100;
 	}
+
+	.important .saved {
+		background: #FFF2F2;
+	}
 	
 	.edit-bar {
 		background: #948FA0;
