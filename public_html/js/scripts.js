@@ -177,22 +177,22 @@ $(document).ready(function () {
 			$('#create-task').click(this.createTask);
 		
 			// Focus on link input
-			$('.create-task').delegate( '.creator-edit-bar input', 	'focus', 	this.linkFocus );
+			$('.create-task').on( 'focus', 	'.creator-edit-bar input',	this.linkFocus );
 		
 			// Blur from link input
-			$('.create-task').delegate( '.creator-edit-bar input', 	'blur', 	this.linkBlur );
+			$('.create-task').on( 'blur', 	'.creator-edit-bar input',	this.linkBlur );
 	
 			// Toggle Importance
-			$('.create-task').delegate( '.flagger', 				'click', 	this.toggleImportance );
+			$('.create-task').on( 'click', 	'.flagger',					this.toggleImportance );
 		
 			// Cancel Task Creation
-			$('.create-task').delegate('#cancel-task', 				'click', 	this.cancel );
+			$('.create-task').on( 'click', 	'#cancel-task', 		 	this.cancel );
 			
 			// Create a new task
-			$('.create-task').delegate('#save-task', 				'click', 	this.save );
+			$('.create-task').on( 'click', 	'#save-task', 				this.save );
 		
 			// Add task on enter
-			$('.create-task').delegate('#submit-task', 				'click', 	this.saveOnEnter);
+			$('.create-task').on( 'click', 	'#submit-task', 			this.saveOnEnter);
 				
 		},
 		
@@ -305,43 +305,43 @@ $(document).ready(function () {
 		init : function () {
 			
 			// Focus on task
-			$('.category').delegate( '.task', 				'focus', 	this.taskFocus );
+			$('.category').on( 'focus', '.task',				this.taskFocus );
 					
 			// Check or uncheck completion
-			$('.category').delegate( '.check', 				'click', 	this.toggleCompletion );
+			$('.category').on( 'click', '.check',				this.toggleCompletion );
 			
 			// Update on change
-			$('.category').delegate( '.task', 				'change', 	this.updateOnChange );
+			$('.category').on( 'change', '.task',				this.updateOnChange );
 			
 			// Update on enter
-			$('.category').delegate( '.save-task', 			'click', 	this.updateOnEnter );
+			$('.category').on( 'click', '.save-task',			this.updateOnEnter );
 		
 			// Toggle importance
-			$('.category').delegate( '.flagger', 			'click', 	this.toggleImportance );
+			$('.category').on( 'click', '.flagger',				this.toggleImportance );
 			
 			// Click delete circle -> bring up confirm delete button
-			$('.category').delegate( '.delete', 			'click', 	this.deleteFirstClick );
+			$('.category').on( 'click', '.delete',				this.deleteFirstClick );
 			
 			// Confirm delete
-			$('.category').delegate( '.confirm-delete', 	'click', 	this.deleteSecondClick );
+			$('.category').on( 'click', '.confirm-delete',		this.deleteSecondClick );
 			
 			// Cancel delete by focusing on task input
-			$('.category').delegate( '.task', 				'focus', 	this.cancelDelete );
+			$('.category').on( 'focus', '.task',				this.cancelDelete );
 			
 			// Click add link
-			$('.category').delegate( '.add-link', 			'click', 	this.addLink );
+			$('.category').on( 'click', '.add-link',			this.addLink );
 			
 			// Focus on link editor input
-			$('.category').delegate( '#link-editor input', 	'focus', 	this.linkFocus );
+			$('.category').on( 'focus', '#link-editor input',	this.linkFocus );
 			
 			// Blur from link editor input
-			$('.category').delegate( '#link-editor input', 	'blur', 	this.linkBlur );
+			$('.category').on( 'blur', '#link-editor input',	this.linkBlur );
 						
 			// Submit link editor on enter		
-			$('.category').delegate( '#save-link', 			'click', 	this.saveLinkOnEnter );
+			$('.category').on( 'click', '#save-link', 		 	this.saveLinkOnEnter );
 		
 			// Remove link
-			$('.category').delegate( '.break-link', 		'click', 	this.removeLink );
+			$('.category').on( 'click', '.break-link', 		 	this.removeLink );
 				
 			// Order the tasks
 			$('.category').sortable( this.taskOrderConfig );
