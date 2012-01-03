@@ -1,20 +1,20 @@
-$(document).ready(function() {
+$(document).ready(function () {
 	
 	var util = {
 	
-			updateTask : function(data, $parentRow) {
-				if($parentRow) {
+			updateTask : function (data, $parentRow) {
+				if ($parentRow) {
 					$parentRow.addClass('saving');
 				}
 				$.ajax({
 					type: 'POST',
 					 url: '/tasks/update',
 					data: data,
-					success: function() {
-						if($parentRow) {
-							$('<div class="saved">Saved</div>').appendTo($parentRow).fadeIn('slow', function() {
+					success: function () {
+						if ($parentRow) {
+							$('<div class="saved">Saved</div>').appendTo($parentRow).fadeIn('slow', function () {
 								$parentRow.removeClass('saving');
-								$('.saved').delay(500).fadeOut('slow', function() {
+								$('.saved').delay(500).fadeOut('slow', function () {
 									$('.saved').remove();
 								});
 							});
@@ -23,16 +23,16 @@ $(document).ready(function() {
 				});
 			},
 			
-			twoDigits : function(num) {
+			twoDigits : function (num) {
 				var paddedNum = '0' + num;
 				return paddedNum.substring(paddedNum.length - 2);
 			},
 			
-			toMysql : function(date) {
+			toMysql : function (date) {
 			    return date.getFullYear() + "-" + util.twoDigits(1 + date.getMonth()) + "-" + util.twoDigits(date.getDate());
 			},
 			
-			updateOrder : function($categoryDiv) {
+			updateOrder : function ($categoryDiv) {
 			
 				$.ajax({
 					type: 'POST',
@@ -42,7 +42,7 @@ $(document).ready(function() {
 				
 			},
 			
-			handleLink : function($editBar) {
+			handleLink : function ($editBar) {
 			
 				var $parentRow = $editBar.parent('.task-row'),
 					data,
@@ -53,7 +53,7 @@ $(document).ready(function() {
 					
 				$('#link-editor').remove();
 				
-				if( linkHrefVal ) { // If there's actually something to link
+				if ( linkHrefVal ) { // If there's actually something to link
 					linkHrefVal = linkHrefVal.match(/^https?:\/\//) ? linkHrefVal : 'http://' + linkHrefVal;
 					data = {
 						id 			: $parentRow.data('id'),
@@ -61,7 +61,7 @@ $(document).ready(function() {
 						link_href	: linkHrefVal
 					};
 					util.updateTask(data, $parentRow);
-					if(!$parentRow.hasClass('linked')) {
+					if (!$parentRow.hasClass('linked')) {
 						$editBar.find('.linker').before('<a class="linker break-link" href="#">Remove Link</a>');
 						$parentRow.addClass('linked');
 					} else { 
@@ -76,7 +76,7 @@ $(document).ready(function() {
 				
 			},
 			
-			dateInfo : function() {
+			dateInfo : function () {
 			
 				this.url = window.location.href;
 				this.date_seg = this.url.match(/[0-9\-]+$/);
@@ -93,16 +93,16 @@ $(document).ready(function() {
 	// Initial actions
 	({
 	
-		init : function() {
+		init : function () {
 		
 			// Expand height of body for when clicking outside of tasks
 			this.resizeBodyHeight();
 			$(window).resize(this.resizeBodyHeight);
 			
 			// Give empty categories the "empty" class
-			$('.category').each(function() {
+			$('.category').each(function () {
 				var $this = $(this);
-				if($this.children('.task-row').length < 1) {
+				if ($this.children('.task-row').length < 1) {
 					$this.addClass('empty');
 				}
 			});
@@ -123,7 +123,7 @@ $(document).ready(function() {
 			$('.date-changer').hide();	// Hide date changers
 			$('.link:hidden').show();	// Reveal any hidden links
 			
-			if($('#link-editor').length) {	// If there's an open link editor
+			if ($('#link-editor').length) {	// If there's an open link editor
 				var $editBar = $('#link-editor').parent()
 				util.handleLink($editBar);
 			}
@@ -161,7 +161,7 @@ $(document).ready(function() {
 			maxDate 		: 0,
 			nextText 		: 'Next Month',
 			prevText 		: 'Previous Month',
-			onSelect 		: function(dateText, inst) { 
+			onSelect 		: function (dateText, inst) { 
 								window.location = '/tasks/completed/' + dateText;
 							}
 		}
@@ -177,22 +177,22 @@ $(document).ready(function() {
 			$('#create-task').click(this.createTask);
 		
 			// Focus on link input
-			$('.create-task').delegate( '.creator-edit-bar input', 'focus', this.linkFocus );
+			$('.create-task').delegate( '.creator-edit-bar input', 	'focus', 	this.linkFocus );
 		
 			// Blur from link input
-			$('.create-task').delegate( '.creator-edit-bar input', 'blur', this.linkBlur );
+			$('.create-task').delegate( '.creator-edit-bar input', 	'blur', 	this.linkBlur );
 	
 			// Toggle Importance
-			$('.create-task').delegate( '.flagger', 'click', this.toggleImportance );
+			$('.create-task').delegate( '.flagger', 				'click', 	this.toggleImportance );
 		
 			// Cancel Task Creation
-			$('.create-task').delegate('#cancel-task', 'click', this.cancel );
+			$('.create-task').delegate('#cancel-task', 				'click', 	this.cancel );
 			
 			// Create a new task
-			$('.create-task').delegate('#save-task', 'click', this.save );
+			$('.create-task').delegate('#save-task', 				'click', 	this.save );
 		
 			// Add task on enter
-			$('.create-task').delegate('#submit-task', 'click', this.saveOnEnter);
+			$('.create-task').delegate('#submit-task', 				'click', 	this.saveOnEnter);
 				
 		},
 		
@@ -202,11 +202,11 @@ $(document).ready(function() {
 			
 			e.preventDefault();
 			
-			if($createTask.hasClass('creating-task')) {
+			if ($createTask.hasClass('creating-task')) {
 				$createTask.removeClass('creating-task');
 				$('#task-creator').remove();
 			} else {
-				$.get('/tasks/task_creator', function(data) {
+				$.get('/tasks/task_creator', function (data) {
 					$createTask.append(data).addClass('creating-task');
 					$('#task').focus();
 				});
@@ -218,7 +218,7 @@ $(document).ready(function() {
 
 			var $this = $(this),
 				thisVal = $this.val();
-			if(thisVal === $this.attr('title')) {
+			if (thisVal === $this.attr('title')) {
 				$this.val('');
 			}
 
@@ -229,7 +229,7 @@ $(document).ready(function() {
 			var $this = $(this),
 				thisVal = $this.val();
 				
-			if(thisVal === '') {
+			if (thisVal === '') {
 			
 				$this.val($this.attr('title'));
 				$this.removeClass('has-text');
@@ -277,10 +277,10 @@ $(document).ready(function() {
 					'link_href'		: (linkHrefVal ? linkHrefVal : ''),
 					'important'		: ($('#task-creator').hasClass('important') ? 1 : 0)
 				},
-				success: function(data) {
+				success: function (data) {
 					$('.create-task').removeClass('creating-task');
 					$('#task-creator').hide().remove();
-					$(data).appendTo($categoryDiv).hide().fadeIn('fast', function() {
+					$(data).appendTo($categoryDiv).hide().fadeIn('fast', function () {
 						$categoryDiv.removeClass('empty');
 						util.updateOrder($categoryDiv);
 						$('.category').sortable('refresh');
@@ -305,43 +305,43 @@ $(document).ready(function() {
 		init : function () {
 			
 			// Focus on task
-			$('.category').delegate('.task', 'focus', this.taskFocus );
+			$('.category').delegate( '.task', 				'focus', 	this.taskFocus );
 					
 			// Check or uncheck completion
-			$('.category').delegate('.check', 'click', this.toggleCompletion );
+			$('.category').delegate( '.check', 				'click', 	this.toggleCompletion );
 			
 			// Update on change
-			$('.category').delegate('.task', 'change', this.updateOnChange );
+			$('.category').delegate( '.task', 				'change', 	this.updateOnChange );
 			
 			// Update on enter
-			$('.category').delegate('.save-task', 'click', this.updateOnEnter );
+			$('.category').delegate( '.save-task', 			'click', 	this.updateOnEnter );
 		
 			// Toggle importance
-			$('.category').delegate('.flagger', 'click', this.toggleImportance );
+			$('.category').delegate( '.flagger', 			'click', 	this.toggleImportance );
 			
 			// Click delete circle -> bring up confirm delete button
-			$('.category').delegate('.delete', 'click', this.deleteFirstClick );
+			$('.category').delegate( '.delete', 			'click', 	this.deleteFirstClick );
 			
 			// Confirm delete
-			$('.category').delegate('.confirm-delete', 'click', this.deleteSecondClick );
+			$('.category').delegate( '.confirm-delete', 	'click', 	this.deleteSecondClick );
 			
 			// Cancel delete by focusing on task input
-			$('.category').delegate('.task', 'focus', this.cancelDelete );
+			$('.category').delegate( '.task', 				'focus', 	this.cancelDelete );
 			
 			// Click add link
-			$('.category').delegate('.add-link', 'click', this.addLink );
+			$('.category').delegate( '.add-link', 			'click', 	this.addLink );
 			
 			// Focus on link editor input
-			$('.category').delegate('#link-editor input', 'focus', this.linkFocus );
+			$('.category').delegate( '#link-editor input', 	'focus', 	this.linkFocus );
 			
 			// Blur from link editor input
-			$('.category').delegate('#link-editor input', 'blur', this.linkBlur );
+			$('.category').delegate( '#link-editor input', 	'blur', 	this.linkBlur );
 						
 			// Submit link editor on enter		
-			$('.category').delegate('#save-link', 'click', this.saveLinkOnEnter );
+			$('.category').delegate( '#save-link', 			'click', 	this.saveLinkOnEnter );
 		
 			// Remove link
-			$('.category').delegate('.break-link', 'click', this.removeLink );
+			$('.category').delegate( '.break-link', 		'click', 	this.removeLink );
 				
 			// Order the tasks
 			$('.category').sortable( this.taskOrderConfig );
@@ -360,7 +360,7 @@ $(document).ready(function() {
 			
 		},
 		
-		toggleCompletion : function(e){
+		toggleCompletion : function (e){
 			
 			var $this = $(this),
 				$parentRow = $this.parent('.completed').parent('.task-row'),
@@ -375,17 +375,18 @@ $(document).ready(function() {
 	
 			e.preventDefault();
 			util.updateTask(data, $parentRow);
-			$parentRow.fadeOut('slow', function(){
+			$parentRow.fadeOut('slow', function (){
 				$parentRow.remove();
 			});
 			
 		},
 		
-		updateOnChange : function(e){
+		updateOnChange : function (e){
 		
 			var $this = $(this);
 	
 			e.preventDefault();
+			
 			util.updateTask({
 				id 		: $this.parent('.task-row').data('id'),
 				task 	: $this.val()
@@ -393,11 +394,12 @@ $(document).ready(function() {
 			
 		},
 		
-		updateOnEnter : function(e) {
+		updateOnEnter : function (e) {
 		
 			var $parentRow = $(this).parent();
 	
 			e.preventDefault();
+			
 			util.updateTask({
 				id 		: $parentRow.data('id'),
 				task 	: $parentRow.find('.task').val()
@@ -405,7 +407,7 @@ $(document).ready(function() {
 		
 		},
 		
-		toggleImportance : function(e) {
+		toggleImportance : function (e) {
 		
 			var $parentRow = $(this).parent().parent();
 			
@@ -418,7 +420,7 @@ $(document).ready(function() {
 		
 		},
 		
-		deleteFirstClick : function(e) {
+		deleteFirstClick : function (e) {
 		
 			e.preventDefault();
 			$('.confirm-delete').hide();
@@ -427,7 +429,7 @@ $(document).ready(function() {
 		
 		},
 		
-		deleteSecondClick : function(e) {
+		deleteSecondClick : function (e) {
 		
 			var $this = $(this),
 				url = $this.attr('href'),
@@ -435,14 +437,14 @@ $(document).ready(function() {
 	
 			e.preventDefault();
 			
-			if($parentRow.siblings('.task-row').length === 0) {
+			if ($parentRow.siblings('.task-row').length === 0) {
 				$parentRow.parent().addClass('empty');
 			}
 	
 			$.ajax({
 				url: url,
-				success: function() {
-					$parentRow.fadeOut('slow', function() {
+				success: function () {
+					$parentRow.fadeOut('slow', function () {
 						$parentRow.remove();
 					});
 				}
@@ -450,14 +452,14 @@ $(document).ready(function() {
 		
 		},
 		
-		cancelDelete : function() {
+		cancelDelete : function () {
 		
 			$('.confirm-delete').hide();
 			$('.delete').show();
 			
 		},
 		
-		addLink : function(e) {
+		addLink : function (e) {
 		
 			var $editBar = $(this).parent(),
 				$parentRow = $editBar.parent('.task-row'),
@@ -469,7 +471,7 @@ $(document).ready(function() {
 			
 			e.preventDefault();
 			
-			if($parentRow.hasClass('editing-link')) { // Link is being edited, save and display it
+			if ($parentRow.hasClass('editing-link')) { // Link is being edited, save and display it
 			
 				util.handleLink($editBar);
 				
@@ -477,7 +479,7 @@ $(document).ready(function() {
 				
 				$('#link-editor').remove();
 				
-				if($parentRow.hasClass('linked')) { // Link is present, populate editor values
+				if ($parentRow.hasClass('linked')) { // Link is present, populate editor values
 					$thisLink = $editBar.find('.link').hide();
 					thisLinkText = $thisLink.text();
 					thisLinkHref = $thisLink.attr('href');
@@ -498,22 +500,22 @@ $(document).ready(function() {
 			
 		},
 		
-		linkFocus : function() {
+		linkFocus : function () {
 		
 			var $this = $(this),
 				thisVal = $this.val();
-			if(thisVal === $this.attr('title')) {
+			if (thisVal === $this.attr('title')) {
 				$this.val('');
 			}
 		
 		},
 		
-		linkBlur : function() {
+		linkBlur : function () {
 		
 			var $this = $(this),
 				thisVal = $this.val();
 				
-			if(thisVal === '') {
+			if (thisVal === '') {
 				
 				$this.val($this.attr('title'));
 				$this.removeClass('has-text');
@@ -526,7 +528,7 @@ $(document).ready(function() {
 		
 		},
 		
-		saveLinkOnEnter : function(e) {
+		saveLinkOnEnter : function (e) {
 		
 			var $editBar = $(this).parent().parent();
 			e.preventDefault();
@@ -534,7 +536,7 @@ $(document).ready(function() {
 	
 		},
 		
-		removeLink : function(e) {
+		removeLink : function (e) {
 		
 			var $this = $(this),
 				$editBar = $this.parent(),
@@ -558,13 +560,13 @@ $(document).ready(function() {
 			placeholder : 'ui-placeholder',
 			handle 		: '.handle',
 			connectWith : '.category',
-			remove 		: function(event, ui) {
+			remove 		: function (event, ui) {
 							var $this = $(this);
-							if($this.children('.task-row').length < 1) {
+							if ($this.children('.task-row').length < 1) {
 								$this.addClass('empty');
 							}
 						},
-			update 		: function(event, ui) {
+			update 		: function (event, ui) {
 							var $this = $(this);
 							if (this === ui.item.parent()[0]) {
 								util.updateOrder($this);
@@ -576,7 +578,7 @@ $(document).ready(function() {
 								$this.removeClass('empty');
 							}
 						},
-			stop 		: function(event, ui) {
+			stop 		: function (event, ui) {
 							ui.item.find('.task').focus(); // Re-focus the input
 						}
 						
@@ -590,15 +592,15 @@ $(document).ready(function() {
 			maxDate 	: 0,
 			nextText 	: 'Next Month',
 			prevText 	: 'Previous Month',
-			onSelect 	: function(dateText, inst) { 
+			onSelect 	: function (dateText, inst) { 
 							var $parentRow = $(this).parent().parent().parent();
 				
-							if( dateText !== util.dateInfo.date ) {
+							if ( dateText !== util.dateInfo.date ) {
 								util.updateTask({
 									id				: $parentRow.data('id'),
 									date_completed 	: dateText
 								});
-								$parentRow.fadeOut('slow', function() {
+								$parentRow.fadeOut('slow', function () {
 									$parentRow.remove();
 								});
 				
@@ -607,7 +609,7 @@ $(document).ready(function() {
 						
 		},
 		
-		changeDate : function(e) {
+		changeDate : function (e) {
 		
 			var $this = $(this),
 				$parentRow = $this.parent().parent().parent();
