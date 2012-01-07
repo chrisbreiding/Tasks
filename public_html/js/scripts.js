@@ -264,7 +264,13 @@ $(document).ready(function () {
 				$linkText = $('#create-link-text'),
 				$linkHref = $('#create-link-href'),
 				linkHrefVal = $linkHref.val(),
-				linkHrefVal = linkHrefVal && (linkHrefVal !== $linkHref.attr('title')) && (linkHrefVal.match(/^https?:\/\//) ? linkHrefVal : 'http://' + linkHrefVal);
+				linkHrefVal = linkHrefVal && (linkHrefVal !== $linkHref.attr('title')) && (linkHrefVal.match(/^https?:\/\//) ? linkHrefVal : 'http://' + linkHrefVal),
+				important = ($('#task-creator').hasClass('important') ? 1 : 0),
+				newTaskCallback = function () {
+					$categoryDiv.removeClass('empty');
+					util.updateOrder($categoryDiv);
+					$('.category').sortable('refresh');
+				};
 				
 			e.preventDefault();
 			$.ajax({
@@ -275,16 +281,17 @@ $(document).ready(function () {
 					'category_id' 	: category,
 					'link_text' 	: ((linkHrefVal === $linkHref.attr('title') || $linkText.val() === $linkText.attr('title')) ? '' : $linkText.val()),
 					'link_href'		: (linkHrefVal ? linkHrefVal : ''),
-					'important'		: ($('#task-creator').hasClass('important') ? 1 : 0)
+					'important'		: important
 				},
 				success: function (data) {
 					$('.create-task').removeClass('creating-task');
 					$('#task-creator').hide().remove();
-					$(data).appendTo($categoryDiv).hide().fadeIn('fast', function () {
-						$categoryDiv.removeClass('empty');
-						util.updateOrder($categoryDiv);
-						$('.category').sortable('refresh');
-					});
+					
+					if (important) { // If important, insert it as the first task
+						$(data).insertAfter( $categoryDiv.find('h2') ).hide().fadeIn('fast', newTaskCallback);
+					} else { // Otherwise, put it at the end
+						$(data).appendTo($categoryDiv).hide().fadeIn('fast', newTaskCallback);
+					}
 				}
 			});
 
