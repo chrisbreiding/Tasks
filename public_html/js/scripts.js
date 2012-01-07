@@ -10,7 +10,12 @@ $(document).ready(function () {
 					type: 'POST',
 					 url: '/tasks/update',
 					data: data,
-					success: function () {
+					success: function ( data, textStatus, jqXHR ) {
+											
+						if( jqXHR.status == 302 ) {
+							window.location.reload();
+						}
+						
 						if ($parentRow) {
 							$('<div class="saved">Saved</div>').appendTo($parentRow).fadeIn('slow', function () {
 								$parentRow.removeClass('saving');
@@ -19,6 +24,7 @@ $(document).ready(function () {
 								});
 							});
 						}
+						
 					}
 				});
 			},
@@ -206,9 +212,15 @@ $(document).ready(function () {
 				$createTask.removeClass('creating-task');
 				$('#task-creator').remove();
 			} else {
-				$.get('/tasks/task_creator', function (data) {
+				$.get('/tasks/task_creator', function (data, textStatus, jqXHR) {
+
+					if( jqXHR.status == 302 ) {
+						window.location.reload();
+					}
+						
 					$createTask.append(data).addClass('creating-task');
 					$('#task').focus();
+
 				});
 			}
 		
@@ -283,7 +295,12 @@ $(document).ready(function () {
 					'link_href'		: (linkHrefVal ? linkHrefVal : ''),
 					'important'		: important
 				},
-				success: function (data) {
+				success: function (data, textStatus, jqXHR) {
+
+					if( jqXHR.status == 302 ) {
+						window.location.reload();
+					}
+						
 					$('.create-task').removeClass('creating-task');
 					$('#task-creator').hide().remove();
 					
@@ -450,10 +467,16 @@ $(document).ready(function () {
 	
 			$.ajax({
 				url: url,
-				success: function () {
+				success: function (data, textStatus, jqXHR) {
+
+					if( jqXHR.status == 302 ) {
+						window.location.reload();
+					}
+						
 					$parentRow.fadeOut('slow', function () {
 						$parentRow.remove();
 					});
+					
 				}
 			});
 		
