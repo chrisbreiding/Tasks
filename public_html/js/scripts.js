@@ -168,10 +168,30 @@ $(document).ready(function () {
 								}
 			};
 		
+<<<<<<< HEAD
 		
 			return {
 			
 				init : function () {
+=======
+			// Focus on link input
+			$('.create-task').on( 'focus', 	'.creator-edit-bar input',	this.linkFocus );
+		
+			// Blur from link input
+			$('.create-task').on( 'blur', 	'.creator-edit-bar input',	this.linkBlur );
+	
+			// Toggle Importance
+			$('.create-task').on( 'click', 	'.flagger',					this.toggleImportance );
+		
+			// Cancel Task Creation
+			$('.create-task').on( 'click', 	'#cancel-task', 		 	this.cancel );
+			
+			// Create a new task
+			$('.create-task').on( 'click', 	'#save-task', 				this.save );
+		
+			// Add task on enter
+			$('.create-task').on( 'click', 	'#submit-task', 			this.saveOnEnter);
+>>>>>>> 37020fdf24c1fe149825debce7e824c7f5ca890b
 				
 					$('#date-input').datepicker( dateConfig );
 					
@@ -298,6 +318,7 @@ $(document).ready(function () {
 	
 			}
 			
+<<<<<<< HEAD
 			function saveOnEnter (e) {
 			
 				e.preventDefault();
@@ -413,6 +434,57 @@ $(document).ready(function () {
 						task 			: $parentRow.find('.task').val(),
 						important		: 0
 					};
+=======
+			// Focus on task
+			$('.category').on( 'focus', '.task',				this.taskFocus );
+					
+			// Check or uncheck completion
+			$('.category').on( 'click', '.check',				this.toggleCompletion );
+			
+			// Update on change
+			$('.category').on( 'change', '.task',				this.updateOnChange );
+			
+			// Update on enter
+			$('.category').on( 'click', '.save-task',			this.updateOnEnter );
+		
+			// Toggle importance
+			$('.category').on( 'click', '.flagger',				this.toggleImportance );
+			
+			// Click delete circle -> bring up confirm delete button
+			$('.category').on( 'click', '.delete',				this.deleteFirstClick );
+			
+			// Confirm delete
+			$('.category').on( 'click', '.confirm-delete',		this.deleteSecondClick );
+			
+			// Cancel delete by focusing on task input
+			$('.category').on( 'focus', '.task',				this.cancelDelete );
+			
+			// Click add link
+			$('.category').on( 'click', '.add-link',			this.addLink );
+			
+			// Focus on link editor input
+			$('.category').on( 'focus', '#link-editor input',	this.linkFocus );
+			
+			// Blur from link editor input
+			$('.category').on( 'blur', '#link-editor input',	this.linkBlur );
+						
+			// Submit link editor on enter		
+			$('.category').on( 'click', '#save-link', 		 	this.saveLinkOnEnter );
+		
+			// Remove link
+			$('.category').on( 'click', '.break-link', 		 	this.removeLink );
+				
+			// Order the tasks
+			$('.category').sortable( this.taskOrderConfig );
+
+			// Completed task date picker
+			$('.date-changer').datepicker( this.dateConfig );
+			$('.date-change > a').click( this.changeDate );
+
+		},
+		
+		taskFocus : function (e) {
+>>>>>>> 37020fdf24c1fe149825debce7e824c7f5ca890b
 		
 				e.preventDefault();
 				util.updateTask(data, $parentRow);
