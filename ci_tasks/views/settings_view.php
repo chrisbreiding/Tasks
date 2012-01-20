@@ -8,18 +8,30 @@
 </head>
 <body class="<?php echo $body_class; ?>">
 
-	<ul class="options-bar">
-		<li class="tasks-link"><a title="Return to Tasks" href="<?php echo base_url(); ?>">Return to Tasks</a></li>
-		<li class="logout"><a href="<?php echo base_url(); ?>logout">Log Out</a></li>
-	</ul>
+	<div class="super-bar">
+		
+		<a class="home" href="<?php echo base_url(); ?>">Home</a>
+		
+		<ul class="options">
+			<li class="settings-link"><a title="Settings" href="<?php echo base_url(); ?>settings">Settings</a></li>
+			<li class="logout"><a title="Log Out" href="<?php echo base_url(); ?>logout">Log Out</a></li>
+		</ul>
+		
+		<div class="container">
+			
+			<h1>Settings</h1>
+			
+			<div class="saving-wrap">
+				<img id="saving-settings" src="<?php echo base_url(); ?>ui/saving.gif" width="16" height="16" alt="" />
+				<div id="saved-message">Settings Saved</div>
+			</div>
+			
+		</div><!-- /.container -->
+		
+	</div><!-- /.super-bar -->
 
-	<div class="container">
-		
-		<h1>Settings</h1>
-		
-		<img id="saving-settings" src="<?php echo base_url(); ?>ui/saving-big.gif" width="32" height="32" alt="" />
-		<div id="saved-message">Settings Saved</div>
-		
+	<div class="settings-container">
+				
 		<div class="section columns-section clearfix">
 			
 			<div class="settings-header clearfix">

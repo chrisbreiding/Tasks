@@ -26,7 +26,7 @@ class Tasks extends CI_Controller {
 				
 		$data = array(
 			'title' => ucfirst( $this->user ) . '\'s Tasks',
-			'body_class' => 'incomplete-tasks layout-' . $this->layout,
+			'body_class' => 'tasks incomplete-tasks layout-' . $this->layout,
 			'date' => $this->taskdate->current_date(),
 			'columns' => $this->layout,
 			'task_data' => $this->task_model->get_tasks($this->user_id, $this->layout)
@@ -46,7 +46,7 @@ class Tasks extends CI_Controller {
 		$this->load->library('taskdate');
 		
 		$data = array(
-			'body_class' => 'complete-tasks layout-' . $this->layout,
+			'body_class' => 'tasks complete-tasks layout-' . $this->layout,
 			'date' => $this->taskdate->past_date($uri_date),
 			'columns' => $this->layout,
 			'task_data' => $this->task_model->get_tasks($this->user_id, $this->layout, $uri_date)
