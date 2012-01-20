@@ -126,7 +126,7 @@ $(document).ready(function () {
 				
 					// Expand height of body for when clicking outside of tasks
 					resizeBodyHeight();
-					$(window).resize(this.resizeBodyHeight);
+					$(window).resize(resizeBodyHeight);
 					
 					// Give empty categories the "empty" class
 					$('.category').each(function () {

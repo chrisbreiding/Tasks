@@ -5,11 +5,6 @@ body {
 	font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
-body.tasks,
-body.settings {
-	padding-top: 50px;
-}
-
 .clearfix:before,.clearfix:after { content:""; display:table; }
 .clearfix:after { clear:both; }
 .clearfix { zoom:1; /* For IE 6/7 */ }
@@ -17,6 +12,11 @@ body.settings {
 .container {
 	margin: 0 auto 20px;
 	position: relative;
+}
+
+body.tasks > .container,
+.settings-container {
+	padding-top: 50px;
 }
 
 
