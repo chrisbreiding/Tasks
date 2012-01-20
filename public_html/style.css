@@ -111,7 +111,6 @@ body.tasks > .container,
 a.home,
 .options .settings-link a,
 .options .tasks-link a,
-#date-pick > a,
 .completed a,
 .handle,
 .flagger,
@@ -196,6 +195,10 @@ a.home,
 	#date-pick img:hover {
 		background-color: rgba(255,255,255,0.1);		
 	}
+	
+	#date-pick.date-picker-open img {
+		background: #706D77;
+	}
 		
 	.today-shortcut a {
 		line-height: 30px;
@@ -204,12 +207,14 @@ a.home,
 	
 	#date-pick {
 		position: relative;
-		width: 32px;
+		width: 30px;
 	}
 
 		#date-pick img {
 			cursor: pointer;
 			display: block;
+			position: relative;
+			z-index: 1002;
 		}
 		
 	.create-task {
@@ -233,9 +238,9 @@ a.home,
 		
 		.creating-task:before,
 		#task-creator {
-			-webkit-box-shadow: 0 0 10px rgba(0,0,0,0.2);
-			-moz-box-shadow: 0 0 10px rgba(0,0,0,0.2);
-			box-shadow: 0 0 10px rgba(0,0,0,0.2);
+			-webkit-box-shadow: 0 0 10px rgba(0,0,0,0.4);
+			-moz-box-shadow: 0 0 10px rgba(0,0,0,0.4);
+			box-shadow: 0 0 10px rgba(0,0,0,0.4);
 		}
 
 		#task-creator {
@@ -857,18 +862,8 @@ a.home,
 		right: 0;
 }
 
-#ui-datepicker-div {
-	display: none;
-	position: absolute !important;
-	top: 0 !important;
-	left: auto !important;
-	right: 0 !important;
-}
-
 .ui-datepicker {
-	background: #948FA0;
-	background: -webkit-gradient(linear, left top, left bottom, from(#948FA0), to(#706D77));
-	background: -moz-linear-gradient(top, #948FA0, #706D77);
+	background: #706D77;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
@@ -878,6 +873,21 @@ a.home,
 	font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
 	padding: 5px;
 	width: 260px;
+}
+
+#ui-datepicker-div {
+	display: none;
+	position: absolute !important;
+		top: 0 !important;
+		left: auto !important;
+		right: 0 !important;
+}
+
+#date-pick #ui-datepicker-div {
+	-moz-border-radius: 0 0 3px 3px;
+	-webkit-border-radius: 0 0 3px 3px;
+	border-radius: 0 0 3px 3px;
+	top: 30px !important;
 }
 
 	.ui-datepicker-header {

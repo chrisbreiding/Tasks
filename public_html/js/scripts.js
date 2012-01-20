@@ -117,8 +117,7 @@ $(document).ready(function () {
 				util.handleLink($editBar);
 			}
 	
-			$('.edit-bar:visible').siblings('.task').focus().blur();	// Hide any visible edit bars
-			$('.task-row').removeClass('edit-bar-open');				// Remove class from task rows			
+			$('.task-row').removeClass('edit-bar-open'); // Close open edit bars			
 		}
 		
 		function categoryClick (e) {
@@ -156,22 +155,30 @@ $(document).ready(function () {
 	// Top date picker
 	var datePicker = (function () {
 	
-		var dateConfig = {
+		var $datePick = $('#date-pick'),
 		
-			showOn 			: 'button',
-		    buttonText 		: 'Pick Date',
-		    buttonImageOnly : true, 
-		    buttonImage 	: '/ui/date-picker.png',
-			dateFormat 		: 'yy-mm-dd',
-			defaultDate 	: util.date,
-			gotoCurrent 	: true,
-			maxDate 		: 0,
-			nextText 		: 'Next Month',
-			prevText 		: 'Previous Month',
-			onSelect 		: function (dateText, inst) { 
-								window.location = '/tasks/completed/' + dateText;
-							}
-		};
+			dateConfig = {
+		
+				showOn 			: 'button',
+			    buttonText 		: 'Pick Date',
+			    buttonImageOnly : true, 
+			    buttonImage 	: '/ui/date-picker.png',
+				dateFormat 		: 'yy-mm-dd',
+				defaultDate 	: util.date,
+				gotoCurrent 	: true,
+				maxDate 		: 0,
+				nextText 		: 'Next Month',
+				prevText 		: 'Previous Month',
+				beforeShow		: function () {
+									$datePick.addClass('date-picker-open');
+								},
+				onSelect 		: function (dateText, inst) { 
+									window.location = '/tasks/completed/' + dateText;
+								},
+				onClose			: function () {
+									$datePick.removeClass('date-picker-open');
+								}
+			};
 	
 		return {
 		
@@ -179,7 +186,7 @@ $(document).ready(function () {
 			
 				$('#date-input').datepicker( dateConfig );
 				
-				$('#ui-datepicker-div').appendTo($('#date-pick'));
+				$('#ui-datepicker-div').appendTo($datePick);
 				
 			}
 		
