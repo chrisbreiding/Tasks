@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="<?php echo base_url(); ?>style.css" />
 	<link rel="shortcut icon" href="<?php echo base_url(); ?>favicon.ico" />
 </head>
-<body>
+<body class="login-page">
 
     <?php echo $this->session->flashdata('message'); ?>
 
