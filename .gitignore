@@ -1,0 +1,8 @@
+*~
+.DS_Store
+thumbs.db
+Icon?
+ci_tasks/controllers/test.php
+ci_tasks/views/test_success_view.php
+*.sublime-workspace
+sftp-config.json
