@@ -128,7 +128,7 @@ $(document).ready(function () {
 				// Give empty categories the "empty" class
 				$('.category').each(function () {
 					var $this = $(this);
-					if ($this.children('.task-row').length < 1) {
+					if ($this.find('.task-row').length < 1) {
 						$this.addClass('empty');
 					}
 				});
@@ -191,18 +191,22 @@ $(document).ready(function () {
 	var createTask = (function () {
 
 		var dragToCreate = {
-			connectToSortable : '.category',
+			connectToSortable : '.task-list',
 			helper : function () {
 				return $('<div class="task-row ui-dropper"><div class="completed"><span></span><input class="task" /></div></div>')[0];
 			},
 			revert : 'invalid',
 			distance : 20,
+			cursorAt : {
+				top: 25,
+				left: 15
+			},
 			start : function () {
-				$('.category .ui-draggable').remove();
+				$('.task-list .ui-draggable').remove();
 			},
 			stop : function () {
 
-				$dropped = $('.category .ui-placeholder');
+				$dropped = $('.task-list .ui-placeholder');
 
 				if($dropped.length) { // ensure it's being dropped in a category
 
@@ -308,7 +312,7 @@ $(document).ready(function () {
 				newTaskCallback = function () {
 					$categoryDiv.removeClass('empty');
 					util.updateOrder($categoryDiv);
-					$('.category').sortable('refresh');
+					$('.task-list').sortable('refresh');
 				};
 
 			e.preventDefault();
@@ -382,7 +386,7 @@ $(document).ready(function () {
 
 				placeholder : 'ui-placeholder',
 				handle		: '.handle',
-				connectWith : '.category',
+				connectWith : '.task-list',
 				revert		: 250,
 				remove		: function (event, ui) {
 								var $this = $(this);
@@ -658,7 +662,7 @@ $(document).ready(function () {
 
 			init : function () {
 
-				$('.category')
+				$('.task-list')
 					// Focus on task
 					.delegate( '.task', 'focus', taskFocus )
 					// Check or uncheck completion
