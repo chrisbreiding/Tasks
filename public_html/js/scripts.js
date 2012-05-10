@@ -90,13 +90,6 @@ $(document).ready(function () {
 			date_seg = url.match(/[0-9\-]+$/),
 			date = date_seg ? date_seg[0] : util.toMysql( new Date() );
 
-	/*
-		that.date_arr = this.date.split('-');
-		that.year = Number(this.date_arr[0]);
-		that.month = Number(this.date_arr[1]);
-		that.day = Number(this.date_arr[2]);
-	*/
-
 		return date;
 
 	}());
@@ -197,7 +190,50 @@ $(document).ready(function () {
 	// Create task
 	var createTask = (function () {
 
-		function createTask (e) {
+		var dragToCreate = {
+			connectToSortable : '.category',
+			helper : function () {
+				return $('<div class="task-row ui-dropper"><div class="completed"><span></span><input class="task" /></div></div>')[0];
+			},
+			revert : 'invalid',
+			distance : 20,
+			start : function () {
+				$('.category .ui-draggable').remove();
+			},
+			stop : function () {
+
+				$dropped = $('.category .ui-placeholder');
+
+				if($dropped.length) { // ensure it's being dropped in a category
+
+					$.ajax({
+						type: 'POST',
+						url: '/tasks/create',
+						data: {
+							'task'			: '',
+							'category_id'	: $dropped.closest('.category').data('cat-id'),
+							'link_text'		: '',
+							'link_href'		: '',
+							'important'		: 0
+						},
+						success: function (data, textStatus, jqXHR) {
+
+							$dropped.after(data);
+
+							$('.newly-created')
+								.removeClass('newly-created')
+								.find('.task')
+									.focus();
+
+						}
+					});
+
+				}
+
+			}
+		};
+
+		function clickToCreate (e) {
 
 			var $createTask = $('.create-task');
 
@@ -208,10 +244,6 @@ $(document).ready(function () {
 				$('#task-creator').remove();
 			} else {
 				$.get('/tasks/task_creator', function (data, textStatus, jqXHR) {
-
-					if( jqXHR.status == 302 ) {
-						window.location.reload();
-					}
 
 					$createTask.append(data).addClass('creating-task');
 					$('#task').focus();
@@ -319,8 +351,10 @@ $(document).ready(function () {
 		return {
 
 			init : function () {
-				// Click add task
-				$('#create-task').click(createTask);
+				// Click or drag add task
+				$('#create-task')
+					.click(clickToCreate)
+					.draggable(dragToCreate);
 
 				$('.create-task')
 					// Focus on link input
@@ -349,6 +383,7 @@ $(document).ready(function () {
 				placeholder : 'ui-placeholder',
 				handle		: '.handle',
 				connectWith : '.category',
+				revert		: 250,
 				remove		: function (event, ui) {
 								var $this = $(this);
 								if ($this.children('.task-row').length < 1) {

@@ -7,28 +7,28 @@
 	<link rel="shortcut icon" href="<?php echo base_url(); ?>favicon.ico" />
 </head>
 <body class="<?php echo $body_class; ?>">
-	
+
 	<div class="super-bar">
-		
+
 		<a class="home" href="<?php echo base_url(); ?>">Home</a>
 
 		<ul class="options">
 			<li class="settings-link"><a title="Settings" href="<?php echo base_url(); ?>settings">Settings</a></li>
 			<li class="logout"><a title="Log Out" href="<?php echo base_url(); ?>logout">Log Out</a></li>
 		</ul>
-		
+
 		<div class="container">
-			
+
 			<h1>Tasks</h1>
-			
+
 			<ul class="utilities">
 
 				<?php if( $this->uri->segment(3) ) { ?>
-				
+
 					<li class="previous-day">
 						<a href="/tasks/completed/<?php echo $date['yesterday']; ?>">&lt;</a>
-					</li>	
-					
+					</li>
+
 					<li class="date">
 						<?php echo $date['today_long']; ?>
 					</li>
@@ -38,29 +38,29 @@
 					</li>
 
 				<?php } else { ?>
-				
-					<li class="today-shortcut">	
+
+					<li class="today-shortcut">
 						<a title="Today's Completed Tasks" href="/tasks/completed/<?php echo $date['today_slug']; ?>">Today</a>
 					</li>
-					
+
 				<?php } ?>
 
 				<li id="date-pick">
 					<input id="date-input" type="hidden" />
 				</li>
-				
+
 				<?php if( !$this->uri->segment(3) ) { ?>
-				
+
 					<li class="create-task">
 						<a id="create-task" title="New Task" href="#">+</a>
 					</li>
-					
+
 				<?php } ?>
-				
+
 			</ul>
-						
+
 		</div><!-- /.container -->
-		
+
 	</div><!-- /.super-bar -->
 
 	<div class="container">
@@ -70,15 +70,15 @@
 				if($columns == 1) {
 					include(APPPATH . 'views/_tasks_1_col.php');
 				} else {
-					include(APPPATH . 'views/_tasks_2_col.php'); 
+					include(APPPATH . 'views/_tasks_2_col.php');
 				}
 			?>
 		</div><!-- /#tasks -->
-		
+
 	</div><!-- /.container -->
-	
+
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>	
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="<?php echo base_url(); ?>js/scripts.min.js"></script>
 
 <script type="text/javascript">
