@@ -12,10 +12,6 @@ $(document).ready(function () {
 				data	: data,
 				success	: function ( data, textStatus, jqXHR ) {
 
-					if( jqXHR.status == 302 ) {
-						window.location.reload();
-					}
-
 					if ($parentRow) {
 						$('<div class="saved">Saved</div>').appendTo($parentRow).fadeIn('slow', function () {
 							$parentRow.removeClass('saving');
@@ -50,12 +46,12 @@ $(document).ready(function () {
 
 		handleLink : function ($editBar) {
 
-			var $parentRow = $editBar.parent('.task-row'),
+			var $parentRow = $editBar.closest('.task-row'),
 				data,
 				$linkHref = $('#link-href'),
-				linkHrefVal = ($linkHref.val() !== $linkHref.attr('title') && $linkHref.val()) || '',
+				linkHrefVal = $linkHref.val() !== $linkHref.attr('title') ? $linkHref.val() : '',
 				$linkText = $('#link-text'),
-				linkTextVal = ($linkText.val() !== $linkText.attr('title') && $linkText.val()) || linkHrefVal;
+				linkTextVal = $linkText.val() !== $linkText.attr('title') ? $linkText.val() : linkHrefVal;
 
 			$('#link-editor').remove();
 
@@ -86,8 +82,7 @@ $(document).ready(function () {
 
 	util.date = (function () {
 
-		var url = window.location.href,
-			date_seg = url.match(/[0-9\-]+$/),
+		var date_seg = window.location.href.match(/[0-9\-]+$/),
 			date = date_seg ? date_seg[0] : util.toMysql( new Date() );
 
 		return date;
@@ -106,7 +101,7 @@ $(document).ready(function () {
 			$('.link:hidden').show();	// Reveal any hidden links
 
 			if ($('#link-editor').length) {	// If there's an open link editor
-				var $editBar = $('#link-editor').parent();
+				var $editBar = $('#link-editor').closest('.edit-bar');
 				util.handleLink($editBar);
 			}
 
@@ -148,36 +143,34 @@ $(document).ready(function () {
 	// Top date picker
 	var datePicker = (function () {
 
-		var $datePick = $('#date-pick'),
-
-			dateConfig = {
-
-				showOn			: 'button',
-				buttonText		: 'Pick Date',
-				buttonImageOnly	: true,
-				buttonImage		: '/ui/date-picker.png',
-				dateFormat		: 'yy-mm-dd',
-				defaultDate		: util.date,
-				gotoCurrent		: true,
-				maxDate			: 0,
-				nextText		: 'Next Month',
-				prevText		: 'Previous Month',
-				beforeShow		: function () {
-									$datePick.addClass('date-picker-open');
-								},
-				onSelect		: function (dateText, inst) {
-									window.location = '/tasks/completed/' + dateText;
-								},
-				onClose			: function () {
-									$datePick.removeClass('date-picker-open');
-								}
-			};
+		var $datePick = $('#date-pick');
 
 		return {
 
 			init : function () {
 
-				$('#date-input').datepicker( dateConfig );
+				$('#date-input').datepicker({
+
+					showOn			: 'button',
+					buttonText		: 'Pick Date',
+					buttonImageOnly	: true,
+					buttonImage		: '/ui/date-picker.png',
+					dateFormat		: 'yy-mm-dd',
+					defaultDate		: util.date,
+					gotoCurrent		: true,
+					maxDate			: 0,
+					nextText		: 'Next Month',
+					prevText		: 'Previous Month',
+					beforeShow		: function () {
+										$datePick.addClass('date-picker-open');
+									},
+					onSelect		: function (dateText, inst) {
+										window.location = '/tasks/completed/' + dateText;
+									},
+					onClose			: function () {
+										$datePick.removeClass('date-picker-open');
+									}
+				});
 
 				$('#ui-datepicker-div').appendTo($datePick);
 
@@ -288,7 +281,7 @@ $(document).ready(function () {
 		function toggleImportance (e) {
 
 			e.preventDefault();
-			$(this).parent().parent().parent().toggleClass('important');
+			$('#task-creator').toggleClass('important');
 
 		}
 
@@ -301,44 +294,56 @@ $(document).ready(function () {
 		}
 
 		function save (e) {
+			e.preventDefault();
 
 			var category = $('#categories').val(),
 				$categoryDiv = $('#cat-' + category),
+				$taskList = $categoryDiv.find('.task-list'),
 				$linkText = $('#create-link-text'),
+				linkText = '',
 				$linkHref = $('#create-link-href'),
 				linkHref = $linkHref.val(),
-				linkHrefVal = linkHref && (linkHrefVal !== $linkHref.attr('title')) && (linkHref.match(/^https?:\/\//) ? linkHref : 'http://' + linkHref),
+				linkHrefVal = '',
 				important = ($('#task-creator').hasClass('important') ? 1 : 0),
 				newTaskCallback = function () {
 					$categoryDiv.removeClass('empty');
-					util.updateOrder($categoryDiv);
+					util.updateOrder($taskList);
 					$('.task-list').sortable('refresh');
 				};
 
-			e.preventDefault();
+			if( linkHref && linkHref !== $linkHref.attr('title') ) {
+				linkHrefVal = linkHref.match(/^https?:\/\//) ? linkHref : 'http://' + linkHref;
+			}
+
+			if( linkHref ) {
+				linkText = $linkText.val() !== $linkText.attr('title') ? $linkText.val() : linkHref;
+			}
+
 			$.ajax({
 				type: 'POST',
 				url: '/tasks/create',
 				data: {
 					'task'			: $('#task').val() || '',
 					'category_id'	: category,
-					'link_text'		: ((linkHrefVal === $linkHref.attr('title') || $linkText.val() === $linkText.attr('title')) ? '' : $linkText.val()),
-					'link_href'		: (linkHrefVal ? linkHrefVal : ''),
+					'link_text'		: linkText,
+					'link_href'		: linkHrefVal,
 					'important'		: important
 				},
 				success: function (data, textStatus, jqXHR) {
-
-					if( jqXHR.status == 302 ) {
-						window.location.reload();
-					}
 
 					$('.create-task').removeClass('creating-task');
 					$('#task-creator').hide().remove();
 
 					if (important) { // If important, insert it as the first task
-						$(data).insertAfter( $categoryDiv.find('h2') ).hide().fadeIn('fast', newTaskCallback);
+						$(data)
+							.prependTo($taskList)
+							.hide()
+							.fadeIn('fast', newTaskCallback);
 					} else { // Otherwise, put it at the end
-						$(data).appendTo($categoryDiv).hide().fadeIn('fast', newTaskCallback);
+						$(data)
+							.appendTo($taskList)
+							.hide()
+							.fadeIn('fast', newTaskCallback);
 					}
 				}
 			});
@@ -382,73 +387,18 @@ $(document).ready(function () {
 	// Task actions
 	var tasks = (function () {
 
-		var taskOrderConfig = {
-
-				placeholder : 'ui-placeholder',
-				handle		: '.handle',
-				connectWith : '.task-list',
-				revert		: 250,
-				remove		: function (event, ui) {
-								var $this = $(this);
-								if ($this.children('.task-row').length < 1) {
-									$this.addClass('empty');
-								}
-							},
-				update		: function (event, ui) {
-								var $this = $(this);
-								if (this === ui.item.parent()[0]) {
-									util.updateOrder($this);
-									util.updateTask({
-										id			: ui.item.data('id'),
-										task		: ui.item.find('.task').val(),
-										category_id : $this.data('cat-id')
-									}, ui.item);
-									$this.removeClass('empty');
-								}
-							},
-				stop		: function (event, ui) {
-								ui.item.find('.task').focus(); // Re-focus the input
-							}
-
-			},
-
-			dateConfig = {
-
-				dateFormat	: 'yy-mm-dd',
-				defaultDate : util.date,
-				gotoCurrent : true,
-				maxDate		: 0,
-				nextText	: 'Next Month',
-				prevText	: 'Previous Month',
-				onSelect	: function (dateText, inst) {
-								var $parentRow = $(this).parent().parent().parent();
-
-								if ( dateText !== util.date ) {
-									util.updateTask({
-										id				: $parentRow.data('id'),
-										date_completed	: dateText
-									});
-									$parentRow.fadeOut('slow', function () {
-										$parentRow.remove();
-									});
-
-								}
-							}
-
-			};
-
 		function taskFocus (e) {
 
 			$('.edit-bar-open').removeClass('edit-bar-open editing-link');
 			$('#link-editor').remove();
-			$(this).parent().addClass('edit-bar-open');
+			$(this).closest('.task-row').addClass('edit-bar-open');
 
 		}
 
 		function toggleCompletion (e) {
 
 			var $this = $(this),
-				$parentRow = $this.parent('.completed').parent('.task-row'),
+				$parentRow = $this.closest('.task-row'),
 				isNowChecked = $this.hasClass('checked'),
 				data = {
 					id				: $parentRow.data('id'),
@@ -473,15 +423,15 @@ $(document).ready(function () {
 			e.preventDefault();
 
 			util.updateTask({
-				id		: $this.parent('.task-row').data('id'),
+				id		: $this.closest('.task-row').data('id'),
 				task	: $this.val()
-			}, $this.parent());
+			}, $this.closest('.task-row'));
 
 		}
 
 		function updateOnEnter (e) {
 
-			var $parentRow = $(this).parent();
+			var $parentRow = $(this).closest('.task-row');
 
 			e.preventDefault();
 
@@ -494,7 +444,7 @@ $(document).ready(function () {
 
 		function toggleImportance (e) {
 
-			var $parentRow = $(this).parent().parent();
+			var $parentRow = $(this).closest('.task-row');
 
 			e.preventDefault();
 			$parentRow.toggleClass('important');
@@ -518,12 +468,12 @@ $(document).ready(function () {
 
 			var $this = $(this),
 				url = $this.attr('href'),
-				$parentRow = $this.parent().parent('.task-row');
+				$parentRow = $this.closest('.task-row');
 
 			e.preventDefault();
 
 			if ($parentRow.siblings('.task-row').length === 0) {
-				$parentRow.parent().addClass('empty');
+				$parentRow.closest('.category').addClass('empty');
 			}
 
 			$.ajax({
@@ -552,8 +502,8 @@ $(document).ready(function () {
 
 		function addLink (e) {
 
-			var $editBar = $(this).parent(),
-				$parentRow = $editBar.parent('.task-row'),
+			var $editBar = $(this).closest('.edit-bar'),
+				$parentRow = $editBar.closest('.task-row'),
 				$thisLink,
 				thisLinkText = 'Label',
 				thisLinkHref = 'URL',
@@ -621,7 +571,7 @@ $(document).ready(function () {
 
 		function saveLinkOnEnter (e) {
 
-			var $editBar = $(this).parent().parent();
+			var $editBar = $(this).closest('.edit-bar');
 			e.preventDefault();
 			util.handleLink($editBar);
 
@@ -630,8 +580,8 @@ $(document).ready(function () {
 		function removeLink (e) {
 
 			var $this = $(this),
-				$editBar = $this.parent(),
-				$parentRow = $editBar.parent('.task-row');
+				$editBar = $this.closest('.edit-bar'),
+				$parentRow = $editBar.closest('.task-row');
 
 			e.preventDefault();
 			util.updateTask({
@@ -649,7 +599,7 @@ $(document).ready(function () {
 		function changeDate (e) {
 
 			var $this = $(this),
-				$parentRow = $this.parent().parent().parent();
+				$parentRow = $this.closest('.task-row');
 			e.preventDefault();
 			e.stopPropagation();
 			$('.task-row').css('z-index', 10);
@@ -690,10 +640,59 @@ $(document).ready(function () {
 					// Remove link
 					.delegate( '.break-link', 'click', removeLink )
 					// Order the tasks
-					.sortable( taskOrderConfig );
+					.sortable({
+						placeholder : 'ui-placeholder',
+						handle		: '.handle',
+						connectWith : '.task-list',
+						revert		: 250,
+						remove		: function (event, ui) {
+										var $this = $(this);
+										if (!$this.find('.task-row').length) {
+											$this.closest('.category').addClass('empty');
+										}
+									},
+						update		: function (event, ui) {
+										var $this = $(this),
+											$closestCategory = $this.closest('.category');
+										if ($closestCategory[0] === ui.item.closest('.category')[0]) {
+											util.updateOrder($this);
+											util.updateTask({
+												id			: ui.item.data('id'),
+												task		: ui.item.find('.task').val(),
+												category_id : $closestCategory.data('cat-id')
+											}, ui.item);
+											$closestCategory.removeClass('empty');
+										}
+									},
+						stop		: function (event, ui) {
+										ui.item.find('.task').focus(); // Re-focus the input
+									}
+					});
 
 				// Completed task date picker
-				$('.date-changer').datepicker( dateConfig );
+				$('.date-changer').datepicker({
+					dateFormat	: 'yy-mm-dd',
+					defaultDate : util.date,
+					gotoCurrent : true,
+					maxDate		: 0,
+					nextText	: 'Next Month',
+					prevText	: 'Previous Month',
+					onSelect	: function (dateText, inst) {
+									var $parentRow = $(this).closest('.task-row');
+
+									if ( dateText !== util.date ) {
+										util.updateTask({
+											id				: $parentRow.data('id'),
+											date_completed	: dateText
+										});
+										$parentRow.fadeOut('slow', function () {
+											$parentRow.remove();
+										});
+
+									}
+								}
+
+				});
 				$('.date-change > a').click( changeDate );
 
 			}
