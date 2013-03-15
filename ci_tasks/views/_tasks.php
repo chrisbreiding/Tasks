@@ -1,4 +1,10 @@
 <?php
+  $order = array();
+  foreach ($tasks as $index => $task) {
+    $order[$index]  = $task['order'];
+  }
+  array_multisort($order, SORT_ASC, $tasks);
+
   foreach($tasks as $task) {
     $classes = array(
       'task-row',
