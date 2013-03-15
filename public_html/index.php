@@ -4,7 +4,7 @@
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
  *---------------------------------------------------------------
- * 
+ *
  * You can load different configurations depending on your
  * current environment. Setting the environment also influences
  * things like logging and error reporting.
@@ -35,7 +35,7 @@ if (defined('ENVIRONMENT'))
 		case 'development':
 			error_reporting(E_ALL);
 		break;
-	
+
 		case 'testing':
 		case 'production':
 			error_reporting(0);
@@ -56,7 +56,7 @@ if (defined('ENVIRONMENT'))
  * as this file.
  *
  */
-	$system_path = '/srv/www/tasks.crbapps.com/ci_system';
+	$system_path = 'ci_system';
 
 /*
  *---------------------------------------------------------------
@@ -72,7 +72,7 @@ if (defined('ENVIRONMENT'))
  * NO TRAILING SLASH!
  *
  */
-	$application_folder = '/srv/www/tasks.crbapps.com/ci_tasks';
+	$application_folder = 'ci_tasks';
 
 /*
  * --------------------------------------------------------------------
