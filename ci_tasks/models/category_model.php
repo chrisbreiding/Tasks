@@ -4,7 +4,7 @@ class Category_model extends CI_Model {
   public function get_category_info($user_id, $layout) {
 
     $rows = $this->db
-      ->select('id, category, column, display')
+      ->select('id, category, column, display, order')
       ->from('categories')
       ->where(array(
         'user_id' => $user_id,
